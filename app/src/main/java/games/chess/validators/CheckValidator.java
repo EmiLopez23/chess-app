@@ -1,8 +1,9 @@
 package games.chess.validators;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
+import common.Board;
+import common.Coordinate;
+import common.MovementValidator;
+import common.Piece;
 import games.chess.enums.Color;
 import games.chess.enums.PieceType;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CheckValidator implements MovementValidator{
+public class CheckValidator implements MovementValidator {
     public Coordinate getKingCoordinate(Board board, Color color) {
         for(Map.Entry<Coordinate, Piece> entry : board.getBoard().entrySet()){
             Piece value = entry.getValue();

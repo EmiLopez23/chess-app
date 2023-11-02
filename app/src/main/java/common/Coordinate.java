@@ -1,4 +1,4 @@
-package games.chess.board;
+package common;
 
 import java.util.Objects;
 

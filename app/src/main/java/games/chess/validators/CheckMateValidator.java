@@ -1,17 +1,13 @@
 package games.chess.validators;
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
-import games.chess.board.Player;
+import common.*;
 import games.chess.enums.Color;
-import games.chess.mover.MoveResult;
 import games.chess.mover.Mover;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CheckMateValidator implements MovementValidator{
+public class CheckMateValidator implements MovementValidator {
     private MovementValidator checkValidator;
     private Mover mover;
     public CheckMateValidator(MovementValidator checkValidator, Mover mover) {

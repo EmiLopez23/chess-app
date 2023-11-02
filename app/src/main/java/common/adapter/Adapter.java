@@ -1,9 +1,9 @@
-package game_engine;
+package common.adapter;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Movement;
-import games.chess.board.Piece;
+import common.Board;
+import common.Coordinate;
+import common.Movement;
+import common.Piece;
 import edu.austral.dissis.chess.gui.*;
 import games.chess.enums.Color;
 

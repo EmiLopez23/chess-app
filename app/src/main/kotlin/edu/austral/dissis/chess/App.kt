@@ -3,10 +3,11 @@
  */
 package edu.austral.dissis.chess
 
-import game_engine.ChessGameEngine
+import common.CustomGameEngine
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
+import games.chess.factory.ChessGameFactory
 import javafx.application.Application
 import javafx.application.Application.launch
 import javafx.scene.Scene
@@ -18,7 +19,7 @@ fun main() {
 }
 
 class ChessGameApplication : Application() {
-    private val gameEngine = ChessGameEngine()
+    private val gameEngine = CustomGameEngine(ChessGameFactory().createGame())
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
 
     companion object {

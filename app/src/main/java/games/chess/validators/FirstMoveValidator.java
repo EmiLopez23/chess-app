@@ -1,12 +1,13 @@
 package games.chess.validators;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
+import common.Board;
+import common.Coordinate;
+import common.MovementValidator;
+import common.Piece;
 
 import java.util.List;
 
-public class FirstMoveValidator implements MovementValidator{
+public class FirstMoveValidator implements MovementValidator {
     @Override
     public boolean isValid(List<Board> boardHistory, Coordinate from, Coordinate to) {
         if (boardHistory.size() == 1) return true;

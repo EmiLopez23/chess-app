@@ -1,15 +1,13 @@
 package games.chess.mover;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
-import games.chess.board.Player;
+import common.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Mover {
+public class Mover implements SimpleMover {
+    @Override
     public MoveResult<Board,String> move(List<Board> boardHistory, Coordinate from, Coordinate to, Player currentPlayer) {
         Board board = boardHistory.get(boardHistory.size() - 1);
         Piece currentPiece = board.getBoard().get(from);

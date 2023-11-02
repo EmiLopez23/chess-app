@@ -1,11 +1,12 @@
 package games.chess.validators;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
+import common.Board;
+import common.Coordinate;
+import common.MovementValidator;
 
 import java.util.List;
 
-public class CompositeAndValidator implements MovementValidator{
+public class CompositeAndValidator implements MovementValidator {
     private final MovementValidator[] validators;
 
     public CompositeAndValidator(MovementValidator... validators) {

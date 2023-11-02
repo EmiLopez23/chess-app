@@ -1,4 +1,6 @@
-package games.chess.board;
+package common;
+
+import common.Coordinate;
 
 public class Movement {
     private final Coordinate from;

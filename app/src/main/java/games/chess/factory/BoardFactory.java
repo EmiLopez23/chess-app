@@ -1,8 +1,8 @@
 package games.chess.factory;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
+import common.Board;
+import common.Coordinate;
+import common.Piece;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package games.chess.mover;
+package common;
 
 public class MoveResult<Board, String> {
     private final Board board;

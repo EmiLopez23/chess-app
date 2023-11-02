@@ -1,6 +1,7 @@
 package games.chess.factory;
 
-import games.chess.board.Piece;
+import common.MovementValidator;
+import common.Piece;
 import games.chess.enums.Color;
 import games.chess.enums.PieceType;
 import games.chess.validators.*;

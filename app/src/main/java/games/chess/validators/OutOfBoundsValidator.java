@@ -1,11 +1,12 @@
 package games.chess.validators;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
+import common.Board;
+import common.Coordinate;
+import common.MovementValidator;
 
 import java.util.List;
 
-public class OutOfBoundsValidator implements MovementValidator{
+public class OutOfBoundsValidator implements MovementValidator {
 
     @Override
     public boolean isValid(List<Board> boardHistory, Coordinate from, Coordinate to) {

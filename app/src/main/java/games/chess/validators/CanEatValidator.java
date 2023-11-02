@@ -1,12 +1,13 @@
 package games.chess.validators;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
+import common.Board;
+import common.Coordinate;
+import common.MovementValidator;
+import common.Piece;
 
 import java.util.List;
 
-public class CanEatValidator implements MovementValidator{
+public class CanEatValidator implements MovementValidator {
      private final boolean possible;
     public CanEatValidator(boolean possible){
         this.possible = possible;

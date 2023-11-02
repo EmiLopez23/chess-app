@@ -1,13 +1,14 @@
 package games.chess.validators;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
-import games.chess.board.Piece;
+import common.Board;
+import common.Coordinate;
+import common.MovementValidator;
+import common.Piece;
 
 import java.util.List;
 import java.util.Map;
 
-public class DiagonalValidator implements MovementValidator{
+public class DiagonalValidator implements MovementValidator {
     private final boolean forward;
 
     public DiagonalValidator(boolean forward){

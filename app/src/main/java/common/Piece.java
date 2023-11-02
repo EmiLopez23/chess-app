@@ -1,8 +1,7 @@
-package games.chess.board;
+package common;
 
 import games.chess.enums.Color;
 import games.chess.enums.PieceType;
-import games.chess.validators.MovementValidator;
 
 public class Piece {
 

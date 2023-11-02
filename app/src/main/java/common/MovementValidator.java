@@ -1,7 +1,7 @@
-package games.chess.validators;
+package common;
 
-import games.chess.board.Board;
-import games.chess.board.Coordinate;
+import common.Board;
+import common.Coordinate;
 
 import java.util.List;
 

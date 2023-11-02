@@ -1,4 +1,4 @@
-package games.chess.game;
+package common;
 
 public class GameResponse<T, String> {
     private final T game;

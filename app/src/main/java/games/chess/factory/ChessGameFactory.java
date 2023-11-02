@@ -1,8 +1,8 @@
 package games.chess.factory;
 
-import games.chess.board.Board;
-import games.chess.board.Player;
-import games.chess.board.TurnManager;
+import common.Board;
+import common.Player;
+import common.TurnManager;
 import games.chess.enums.Color;
 import games.chess.game.Game;
 import games.chess.mover.Mover;
@@ -12,7 +12,7 @@ import games.chess.validators.CheckValidator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameFactory {
+public class ChessGameFactory {
     private static final BoardFactory boardFactory = new BoardFactory();
 
     public Game createGame() {
@@ -23,6 +23,6 @@ public class GameFactory {
         playerList.add(new Player(Color.BLACK));
         Mover mover = new Mover();
         CheckValidator checkValidator = new CheckValidator();
-        return new Game(boardList, new ArrayList<>(), mover,playerList, new TurnManager(playerList.get(0)), checkValidator, new CheckMateValidator(checkValidator,mover));
+        return new Game(boardList,mover,playerList, new TurnManager(playerList.get(0)), checkValidator, new CheckMateValidator(checkValidator,mover));
     }
 }
