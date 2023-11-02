@@ -4,6 +4,7 @@ import board.Board;
 import board.Coordinate;
 import board.Piece;
 
+import java.util.List;
 import java.util.Map;
 
 public class HorizontalValidator implements MovementValidator{
@@ -13,16 +14,17 @@ public class HorizontalValidator implements MovementValidator{
         this.right = right;
     }
     @Override
-    public boolean isValid(Board board, Coordinate from, Coordinate to) {
-        if(from.column() != to.column()) return false;
-        if(board.getRowSize() < to.row() || board.getColumnSize() < to.column()) return false;
-        int direction = from.row() < to.row() ? 1 : - 1;
+    public boolean isValid(List<Board> boardHistory, Coordinate from, Coordinate to) {
+        if(from.row() != to.row()) return false;
+        Board board = boardHistory.get(boardHistory.size() - 1);
+        int direction = from.column() < to.column() ? 1 : - 1;
         if(right && direction == -1) return false;
-        Coordinate current = from;
+        Coordinate current = new Coordinate(from.column() + direction, from.row());;
         Map<Coordinate, Piece> pieces = board.getBoard();
         while(!current.equals(to)) {
             if(pieces.containsKey(current)) return false;
-            current = new Coordinate(current.row() + direction , current.column());
+            if (current.column() < 1 || current.column() > board.getColumnSize()) return false;
+            current = new Coordinate(current.column() + direction , current.row());
         }
         return true;
     }

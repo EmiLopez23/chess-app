@@ -3,6 +3,8 @@ package validators;
 import board.Board;
 import board.Coordinate;
 
+import java.util.List;
+
 public class CompositeOrValidator implements MovementValidator{
     private final MovementValidator[] validators;
 
@@ -11,9 +13,9 @@ public class CompositeOrValidator implements MovementValidator{
     }
 
     @Override
-    public boolean isValid(Board board, Coordinate from, Coordinate to) {
+    public boolean isValid(List<Board> boardHistory, Coordinate from, Coordinate to) {
         for (MovementValidator validator : validators){
-            if (validator.isValid(board, from,to)) return true;
+            if (validator.isValid(boardHistory, from,to)) return true;
         }
         return false;
     }

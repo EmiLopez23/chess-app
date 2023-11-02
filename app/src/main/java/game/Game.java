@@ -4,13 +4,18 @@ import board.Board;
 import board.Movement;
 import board.Player;
 import board.TurnManager;
+import enums.Color;
 import mover.MoveResult;
 import mover.Mover;
+import validators.CheckMateValidator;
+import validators.CheckValidator;
+import validators.MovementValidator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private final Board board;
+    private final List<Board> boards;
     private final List<Movement> movementHistory;
 
     private final Mover mover;
@@ -19,16 +24,36 @@ public class Game {
 
     private final TurnManager turnManager;
 
-    public Game(Board board, List<Movement> movementHistory, Mover mover, List<Player> players, TurnManager turnManager) {
-        this.board = board;
+    private final MovementValidator checkValidator;
+
+    private final MovementValidator winValidator;
+
+
+
+    public Game(List<Board> boards, List<Movement> movementHistory, Mover mover, List<Player> players, TurnManager turnManager, MovementValidator checkValidator, MovementValidator winValidator) {
+        this.boards = boards;
         this.movementHistory = movementHistory;
         this.mover = mover;
         this.players = players;
         this.turnManager = turnManager;
+        this.checkValidator = checkValidator;
+        this.winValidator = winValidator;
+    }
+
+    public MovementValidator getCheckValidator() {
+        return checkValidator;
+    }
+
+    public MovementValidator getWinValidator() {
+        return this.winValidator;
+    }
+
+    public List<Board> getBoards() {
+        return boards;
     }
 
     public Board getBoard() {
-        return this.board;
+        return this.boards.get(this.boards.size() - 1);
     }
 
     public List<Movement> getMovementHistory() {
@@ -47,14 +72,22 @@ public class Game {
         return this.turnManager;
     }
 
-    public MoveResult<Game, Boolean> play(Movement movement){
-        MoveResult<Board,Boolean> newBoardResult = mover.move(board, movement.getFrom(), movement.getTo(), turnManager.getCurrentPlayer());
+    public GameResponse<Game, String> play(Movement movement){
+        MoveResult<Board,String> newBoardResult = mover.move(boards, movement.getFrom(), movement.getTo(), turnManager.getCurrentPlayer());
+        Player nextPlayer = getNextPlayer();
         if(newBoardResult.isValid()){
-            movementHistory.add(movement);
+            List<Movement> newMovement = new ArrayList<>(this.movementHistory);
+            newMovement.add(movement);
+            List<Board> newBoards = new ArrayList<>(this.boards);
+            newBoards.add(newBoardResult.getBoard());
+            return new GameResponse<>(new Game(newBoards, newMovement , mover, players, new TurnManager(nextPlayer), checkValidator, winValidator), null);
         }
-        Player nextPlayer = turnManager.getCurrentPlayer().equals(players.get(0)) ? players.get(1) : players.get(0);
-        return new MoveResult<>(new Game(newBoardResult.getObject(), movementHistory, mover, players, new TurnManager(nextPlayer)), newBoardResult.isValid());
+        return new GameResponse<>(this, newBoardResult.getMessage());
 
+    }
+
+    public Player getNextPlayer(){
+        return turnManager.getCurrentPlayer().equals(players.get(0)) ? players.get(1) : players.get(0);
     }
 
 }

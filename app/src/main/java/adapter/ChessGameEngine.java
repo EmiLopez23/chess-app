@@ -4,7 +4,9 @@ import board.Movement;
 import edu.austral.dissis.chess.gui.*;
 import factory.GameFactory;
 import game.Game;
+import game.GameResponse;
 import org.jetbrains.annotations.NotNull;
+import validators.CheckValidator;
 
 public class ChessGameEngine implements GameEngine {
     private Game game;
@@ -13,6 +15,7 @@ public class ChessGameEngine implements GameEngine {
 
     private final GameFactory factory = new GameFactory();
 
+
     public ChessGameEngine() {
         this.game = factory.createGame();
     }
@@ -20,13 +23,20 @@ public class ChessGameEngine implements GameEngine {
     @Override
     public MoveResult applyMove(@NotNull Move move) {
         Movement movement = adapter.moveToMovement(move);
-        mover.MoveResult<Game,Boolean> gameResult = game.play(movement);
+        GameResponse<Game,String> gameResult = game.play(movement);
         if(!gameResult.isValid()){
-            return new InvalidMove("Invalid move");
+            return new InvalidMove(gameResult.getMessage());
         }
         else {
-            this.game = gameResult.getObject();
-            return new NewGameState(adapter.piecesToChessPieces(gameResult.getObject().getBoard().getBoard()), adapter.colorToPlayerColor(gameResult.getObject().getTurnManager().getCurrentPlayer().getColor()));
+            Game result = gameResult.getGame();
+            if(!result.getCheckValidator().isValid(result.getBoards(), movement.getFrom(), movement.getTo())){
+                return new InvalidMove( "Check");
+            }
+            if(result.getWinValidator().isValid(result.getBoards(), movement.getFrom(), movement.getTo())){
+                return new GameOver(adapter.colorToPlayerColor(result.getTurnManager().nextPlayer().getColor()));
+            }
+            this.game = result;
+            return new NewGameState(adapter.piecesToChessPieces(result.getBoard().getBoard()), adapter.colorToPlayerColor(result.getTurnManager().getCurrentPlayer().getColor()));
         }
     }
 

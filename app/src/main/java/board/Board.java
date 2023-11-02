@@ -54,11 +54,8 @@ public class Board {
     }
 
     public Board copy() {
-        Board newBoard = new Board(this.rowSize, this.columnSize);
-        for(Coordinate coordinate : this.board.keySet()) {
-            newBoard.addPiece(coordinate, this.board.get(coordinate));
-        }
-        return newBoard;
+        Map<Coordinate, Piece> newPieces = new HashMap<>(this.board);
+        return new Board(this.rowSize, this.columnSize, newPieces);
     }
 
 

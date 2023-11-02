@@ -1,16 +1,16 @@
-package mover;
+package game;
 
-public class MoveResult<Board, String> {
-    private final Board board;
+public class GameResponse<T, String> {
+    private final T game;
     private final String message;
 
-    public MoveResult(Board board, String message) {
-        this.board = board;
+    public GameResponse(T game, String message) {
+        this.game = game;
         this.message = message;
     }
 
-    public Board getBoard() {
-        return this.board;
+    public T getGame() {
+        return this.game;
     }
 
     public Boolean isValid() {

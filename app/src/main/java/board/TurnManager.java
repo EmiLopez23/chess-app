@@ -1,5 +1,7 @@
 package board;
 
+import enums.Color;
+
 public class TurnManager {
     private Player currentPlayer;
 
@@ -9,5 +11,10 @@ public class TurnManager {
 
     public Player getCurrentPlayer() {
         return this.currentPlayer;
+    }
+
+    public Player nextPlayer(){
+        Color nextColor = currentPlayer.getColor() == Color.WHITE ? Color.BLACK : Color.WHITE;
+        return new Player(nextColor);
     }
 }
