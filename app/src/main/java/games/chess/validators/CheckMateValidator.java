@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CheckMateValidator implements MovementValidator {
-    private MovementValidator checkValidator;
+    private final MovementValidator checkValidator;
     public CheckMateValidator(MovementValidator checkValidator) {
         this.checkValidator = checkValidator;
     }

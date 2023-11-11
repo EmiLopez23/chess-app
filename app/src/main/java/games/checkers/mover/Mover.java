@@ -3,20 +3,24 @@ package games.checkers.mover;
 import common.*;
 import common.enums.Color;
 import common.enums.PieceType;
+import common.validators.MovementValidator;
 import games.checkers.factory.PieceFactory;
 import common.Game;
+import games.checkers.validators.IsForcedToEatValidator;
 
 import java.util.*;
 
 public class Mover implements SimpleMover {
     PieceFactory pieceFactory = new PieceFactory();
+
+    MovementValidator isForcedToEat = new IsForcedToEatValidator(false);
     @Override
     public MoveResponse move(Game game, Coordinate from, Coordinate to) {
         Board currentBoard = game.getBoard();
         Piece currentPiece = currentBoard.getBoard().get(from);
         if(currentPiece.getValidator().isValid(game.getBoards(), from, to)) {
             Map<Coordinate, Piece> newPieces = new HashMap<>(currentBoard.getBoard());
-            if(isForcedToEat(currentBoard, from, to)) {
+            if(isForcedToEat.isValid(game.getBoards(), from, to)) {
                 return new MoveResponse(game, "You are forced to eat");
             }
             tryEat(newPieces, from, to);
@@ -50,43 +54,5 @@ public class Mover implements SimpleMover {
             return;
         }
         pieces.put(to, currentPiece);
-    }
-
-    private boolean isForcedToEat(Board board, Coordinate from, Coordinate to){
-        Piece currentPiece = board.getBoard().get(from);
-        Map<Coordinate,Coordinate> piecesThatCanEat = getPiecesThatCanEat(board, currentPiece);
-        if(!piecesThatCanEat.isEmpty()) {
-            if(piecesThatCanEat.containsKey(from)) {
-                return !piecesThatCanEat.get(from).equals(to);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private List<Coordinate> getPossibleMoves(Coordinate current){
-        List<Coordinate> possibleMoves = new ArrayList<>();
-        possibleMoves.add(new Coordinate(current.column() + 2, current.row() + 2));
-        possibleMoves.add(new Coordinate(current.column() - 2, current.row() + 2));
-        possibleMoves.add(new Coordinate(current.column() + 2, current.row() - 2));
-        possibleMoves.add(new Coordinate(current.column() - 2, current.row() - 2));
-        return possibleMoves;
-    }
-
-    private Map<Coordinate, Coordinate> getPiecesThatCanEat(Board board, Piece currentPiece){
-        Map<Coordinate,Coordinate> piecesThatCanEat = new HashMap<>();
-        for (Map.Entry<Coordinate, Piece> entry : board.getBoard().entrySet()) {
-            Coordinate coordinate = entry.getKey();
-            Piece piece = entry.getValue();
-            if(piece.getColor() == currentPiece.getColor()) {
-                List<Coordinate> possibleMoves = getPossibleMoves(coordinate);
-                for (Coordinate possibleMove : possibleMoves) {
-                    if (piece.getValidator().isValid(List.of(board), coordinate, possibleMove)) {
-                        piecesThatCanEat.put(coordinate,possibleMove);
-                    }
-                }
-            }
-        }
-        return piecesThatCanEat;
     }
 }
