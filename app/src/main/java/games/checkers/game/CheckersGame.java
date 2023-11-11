@@ -3,6 +3,7 @@ package games.checkers.game;
 import common.*;
 import common.validators.MovementValidator;
 import games.checkers.mover.Mover;
+import games.chess.game.ChessGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +62,11 @@ public class CheckersGame{
         }
         List<Board> newHistory = new ArrayList<>(this.boards);
         newHistory.add(moveResult.getBoard());
-        return new GameResponse<>(new CheckersGame(newHistory, mover, players, new TurnManager(nextPlayer), winValidator), null);
+        CheckersGame newGame = new CheckersGame(newHistory, mover, players, new TurnManager(nextPlayer), winValidator);
+        if(winValidator.isValid(newGame.getBoards(), movement.getFrom(), movement.getTo())){
+            return new GameResponse<>(new CheckersGame(null, null, null, new TurnManager(nextPlayer), null), "Game Over");
+        }
+        return new GameResponse<>(newGame, null);
     }
 
     public Player getNextPlayer(){

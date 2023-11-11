@@ -6,6 +6,7 @@ import common.TurnManager;
 import common.enums.Color;
 import games.checkers.game.CheckersGame;
 import games.checkers.mover.Mover;
+import games.checkers.validators.ZeroEnemyPiecesValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,6 @@ public class ClassicCheckersFactory {
         playerList.add(new Player(Color.WHITE));
         playerList.add(new Player(Color.BLACK));
         Mover mover = new Mover();
-        return new CheckersGame(boardList,mover,playerList, new TurnManager(playerList.get(0)), null);
+        return new CheckersGame(boardList,mover,playerList, new TurnManager(playerList.get(0)), new ZeroEnemyPiecesValidator());
     }
 }

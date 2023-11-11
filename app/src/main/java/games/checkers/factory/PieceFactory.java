@@ -47,4 +47,29 @@ public class PieceFactory {
         );
         return new Piece(id, Color.WHITE, PieceType.PAWN, validator);
     }
+
+    public Piece createQueen(String id, Color color) {
+        MovementValidator validator = new CompositeAndValidator(
+                new OutOfBoundsValidator(),
+                new EmptySquareValidator(),
+                new CompositeOrValidator(
+                        new CompositeAndValidator(
+                                new LimitedMoveValidator(1),
+                                new CompositeOrValidator(
+                                        new DiagonalValidator(true),
+                                        new DiagonalValidator(false)
+                                )
+                        ),
+                        new CompositeAndValidator(
+                                new LimitedMoveValidator(2),
+                                new PieceInBetweenValidator(),
+                                new CompositeOrValidator(
+                                        new DiagonalValidator(true),
+                                        new DiagonalValidator(false)
+                                )
+                        )
+                )
+        );
+        return new Piece(id, color, PieceType.QUEEN, validator);
+    }
 }
