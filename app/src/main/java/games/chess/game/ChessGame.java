@@ -1,12 +1,13 @@
 package games.chess.game;
 
 import common.*;
+import common.validators.MovementValidator;
 import games.chess.mover.Mover;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class ChessGame {
     private final List<Board> boards;
 
     private final Mover mover;
@@ -21,7 +22,7 @@ public class Game {
 
 
 
-    public Game(List<Board> boards, Mover mover, List<Player> players, TurnManager turnManager, MovementValidator checkValidator, MovementValidator winValidator) {
+    public ChessGame(List<Board> boards, Mover mover, List<Player> players, TurnManager turnManager, MovementValidator checkValidator, MovementValidator winValidator) {
         this.boards = boards;
         this.mover = mover;
         this.players = players;
@@ -58,7 +59,7 @@ public class Game {
         return this.turnManager;
     }
 
-    public GameResponse<Game, String> play(Movement movement){
+    public GameResponse<ChessGame, String> play(Movement movement){
         MoveResult<Board,String> newBoardResult = mover.move(boards, movement.getFrom(), movement.getTo(), turnManager.getCurrentPlayer());
         Player nextPlayer = getNextPlayer();
         if(!newBoardResult.isValid()) {
@@ -66,12 +67,12 @@ public class Game {
         }
         List<Board> newBoards = new ArrayList<>(this.boards);
         newBoards.add(newBoardResult.getBoard());
-        Game newGame = new Game(newBoards, mover, players, new TurnManager(nextPlayer), checkValidator, winValidator);
+        ChessGame newGame = new ChessGame(newBoards, mover, players, new TurnManager(nextPlayer), checkValidator, winValidator);
         if(!checkValidator.isValid(newGame.getBoards(), movement.getFrom(), movement.getTo())){
             return new GameResponse<>(this, "Check");
         }
         if(winValidator.isValid(newGame.getBoards(), movement.getFrom(), movement.getTo())){
-            return new GameResponse<>(new Game(null, null, null, new TurnManager(nextPlayer), null, null), "Game Over");
+            return new GameResponse<>(new ChessGame(null, null, null, new TurnManager(nextPlayer), null, null), "Game Over");
         }
         return new GameResponse<>(newGame, null);
 

@@ -7,6 +7,8 @@ import common.CustomGameEngine
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
+import games.checkers.factory.ClassicCheckersFactory
+import games.checkers.game.CheckersGame
 import games.chess.factory.ChessGameFactory
 import javafx.application.Application
 import javafx.application.Application.launch
@@ -19,7 +21,7 @@ fun main() {
 }
 
 class ChessGameApplication : Application() {
-    private val gameEngine = CustomGameEngine(ChessGameFactory().createGame())
+    private val gameEngine = CustomGameEngine(ClassicCheckersFactory().createGame())
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
 
     companion object {
