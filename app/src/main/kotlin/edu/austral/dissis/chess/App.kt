@@ -4,9 +4,11 @@
 package edu.austral.dissis.chess
 
 import common.CustomGameEngine
+import connection.server.GameServer
 import edu.austral.dissis.chess.gui.CachedImageResolver
 import edu.austral.dissis.chess.gui.DefaultImageResolver
 import edu.austral.dissis.chess.gui.GameView
+import edu.austral.ingsis.clientserver.netty.server.NettyServerBuilder
 import games.checkers.factory.CheckersFactory
 import games.chess.factory.ChessFactory
 import javafx.application.Application
@@ -22,6 +24,9 @@ fun main() {
 class ChessGameApplication : Application() {
     private val gameEngine = CustomGameEngine(ChessFactory().createClassicGame())
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
+    private val root = GameView(imageResolver)
+    private val server = NettyServerBuilder.createDefault()
+    private val gameServer : GameServer = GameServer(gameEngine, root, server)
 
     companion object {
         const val GameTitle = "Chess"
@@ -30,7 +35,6 @@ class ChessGameApplication : Application() {
     override fun start(primaryStage: Stage) {
         primaryStage.title = GameTitle
 
-        val root = GameView(gameEngine, imageResolver)
         primaryStage.scene = Scene(root)
 
         primaryStage.show()

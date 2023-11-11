@@ -13,7 +13,7 @@ import java.util.*;
 public class Mover implements SimpleMover {
     PieceFactory pieceFactory = new PieceFactory();
 
-    MovementValidator isForcedToEat = new IsForcedToEatValidator(false);
+    MovementValidator isForcedToEat = new IsForcedToEatValidator(true);
     @Override
     public MoveResponse move(Game game, Coordinate from, Coordinate to) {
         Board currentBoard = game.getBoard();
