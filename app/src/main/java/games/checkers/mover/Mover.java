@@ -20,7 +20,7 @@ public class Mover implements SimpleMover {
         }
         if(currentPiece.getValidator().isValid(history, from, to)) {
             Map<Coordinate, Piece> newBoard = new HashMap<>(board.getBoard());
-            if(isForcedToEat(board, from)) {
+            if(isForcedToEat(board, from, to)) {
                 return new MoveResult<>(board, "You are forced to eat");
             }
             tryEat(board,newBoard,currentPiece, from, to);
@@ -39,23 +39,14 @@ public class Mover implements SimpleMover {
         }
     }
 
-    private boolean isForcedToEat(Board board, Coordinate from){
+    private boolean isForcedToEat(Board board, Coordinate from, Coordinate to){
         Piece currentPiece = board.getBoard().get(from);
-        List<String> piecesThatCanEat = new ArrayList<>();
-        for (Map.Entry<Coordinate, Piece> entry : board.getBoard().entrySet()) {
-            Coordinate coordinate = entry.getKey();
-            Piece piece = entry.getValue();
-            if(piece.getColor() == currentPiece.getColor()) {
-                List<Coordinate> possibleMoves = getPossibleMoves(coordinate);
-                for (Coordinate possibleMove : possibleMoves) {
-                    if (piece.getValidator().isValid(List.of(board), coordinate, possibleMove)) {
-                        piecesThatCanEat.add(piece.getId());
-                    }
-                }
-            }
-        }
+        Map<Coordinate,Coordinate> piecesThatCanEat = getPiecesThatCanEat(board, currentPiece);
         if(!piecesThatCanEat.isEmpty()) {
-            return !piecesThatCanEat.contains(currentPiece.getId());
+            if(piecesThatCanEat.containsKey(from)) {
+                return !piecesThatCanEat.get(from).equals(to);
+            }
+            return true;
         }
         return false;
     }
@@ -67,5 +58,22 @@ public class Mover implements SimpleMover {
         possibleMoves.add(new Coordinate(current.column() + 2, current.row() - 2));
         possibleMoves.add(new Coordinate(current.column() - 2, current.row() - 2));
         return possibleMoves;
+    }
+
+    private Map<Coordinate, Coordinate> getPiecesThatCanEat(Board board, Piece currentPiece){
+        Map<Coordinate,Coordinate> piecesThatCanEat = new HashMap<>();
+        for (Map.Entry<Coordinate, Piece> entry : board.getBoard().entrySet()) {
+            Coordinate coordinate = entry.getKey();
+            Piece piece = entry.getValue();
+            if(piece.getColor() == currentPiece.getColor()) {
+                List<Coordinate> possibleMoves = getPossibleMoves(coordinate);
+                for (Coordinate possibleMove : possibleMoves) {
+                    if (piece.getValidator().isValid(List.of(board), coordinate, possibleMove)) {
+                        piecesThatCanEat.put(coordinate,possibleMove);
+                    }
+                }
+            }
+        }
+        return piecesThatCanEat;
     }
 }
