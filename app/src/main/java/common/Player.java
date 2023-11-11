@@ -1,6 +1,6 @@
 package common;
 
-import games.chess.enums.Color;
+import common.enums.Color;
 
 public class Player {
     private final Color color;

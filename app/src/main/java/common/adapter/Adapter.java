@@ -5,7 +5,7 @@ import common.Coordinate;
 import common.Movement;
 import common.Piece;
 import edu.austral.dissis.chess.gui.*;
-import games.chess.enums.Color;
+import common.enums.Color;
 
 import java.util.ArrayList;
 import java.util.List;

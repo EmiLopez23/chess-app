@@ -1,6 +1,6 @@
 package common;
 
-import games.chess.enums.Color;
+import common.enums.Color;
 
 public class TurnManager {
     private Player currentPlayer;

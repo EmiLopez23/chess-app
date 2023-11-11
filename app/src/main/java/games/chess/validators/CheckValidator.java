@@ -2,10 +2,10 @@ package games.chess.validators;
 
 import common.Board;
 import common.Coordinate;
-import common.MovementValidator;
+import common.validators.MovementValidator;
 import common.Piece;
-import games.chess.enums.Color;
-import games.chess.enums.PieceType;
+import common.enums.Color;
+import common.enums.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;

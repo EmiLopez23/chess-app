@@ -1,9 +1,9 @@
 package games.chess.factory;
 
-import common.MovementValidator;
+import common.validators.*;
 import common.Piece;
-import games.chess.enums.Color;
-import games.chess.enums.PieceType;
+import common.enums.Color;
+import common.enums.PieceType;
 import games.chess.validators.*;
 
 public class PieceFactory {

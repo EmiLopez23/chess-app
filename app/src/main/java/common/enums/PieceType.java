@@ -1,4 +1,4 @@
-package games.chess.enums;
+package common.enums;
 
 public enum PieceType {
     PAWN,

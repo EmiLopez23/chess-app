@@ -1,4 +1,4 @@
-package common;
+package common.validators;
 
 import common.Board;
 import common.Coordinate;

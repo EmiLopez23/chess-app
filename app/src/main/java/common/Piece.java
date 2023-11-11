@@ -1,7 +1,8 @@
 package common;
 
-import games.chess.enums.Color;
-import games.chess.enums.PieceType;
+import common.enums.Color;
+import common.enums.PieceType;
+import common.validators.MovementValidator;
 
 public class Piece {
 

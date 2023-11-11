@@ -1,8 +1,8 @@
-package games.chess.validators;
+package common.validators;
 
 import common.Board;
 import common.Coordinate;
-import common.MovementValidator;
+import common.validators.MovementValidator;
 import common.Piece;
 
 import java.util.List;

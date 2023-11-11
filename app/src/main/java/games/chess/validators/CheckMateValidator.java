@@ -1,6 +1,7 @@
 package games.chess.validators;
 import common.*;
-import games.chess.enums.Color;
+import common.enums.Color;
+import common.validators.MovementValidator;
 import games.chess.mover.Mover;
 
 import java.util.ArrayList;
