@@ -1,28 +1,26 @@
-package games.chess.factory;
+package games.checkers.factory;
 
 import common.Board;
 import common.Player;
 import common.TurnManager;
 import common.enums.Color;
-import games.chess.game.ChessGame;
-import games.chess.mover.Mover;
-import games.chess.validators.CheckMateValidator;
-import games.chess.validators.CheckValidator;
+import common.Game;
+import games.checkers.mover.Mover;
+import games.checkers.validators.ZeroEnemyPiecesValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChessGameFactory {
+public class CheckersFactory {
     private static final BoardFactory boardFactory = new BoardFactory();
 
-    public ChessGame createGame() {
+    public Game createClassicGame() {
         List<Player> playerList = new ArrayList<>();
         List<Board> boardList = new ArrayList<>();
         boardList.add(boardFactory.createClassicBoard());
         playerList.add(new Player(Color.WHITE));
         playerList.add(new Player(Color.BLACK));
         Mover mover = new Mover();
-        CheckValidator checkValidator = new CheckValidator();
-        return new ChessGame(boardList,mover,playerList, new TurnManager(playerList.get(0)), checkValidator, new CheckMateValidator(checkValidator,mover));
+        return new Game(boardList,mover,playerList, new TurnManager(playerList.get(0)), new ZeroEnemyPiecesValidator());
     }
 }

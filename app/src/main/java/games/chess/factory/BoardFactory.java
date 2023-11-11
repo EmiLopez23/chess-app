@@ -39,12 +39,12 @@ public class BoardFactory {
         pieces.put(new Coordinate(6, 8), pieceFactory.createBlackBishop(String.valueOf(id++)));
 
         //create white queen
-        pieces.put(new Coordinate(4, 1), pieceFactory.createWhiteQueen(String.valueOf(id++)));
-        pieces.put(new Coordinate(4, 8), pieceFactory.createBlackQueen(String.valueOf(id++)));
+        pieces.put(new Coordinate(5, 1), pieceFactory.createWhiteQueen(String.valueOf(id++)));
+        pieces.put(new Coordinate(5, 8), pieceFactory.createBlackQueen(String.valueOf(id++)));
 
         //create white king
-        pieces.put(new Coordinate(5, 1), pieceFactory.createWhiteKing(String.valueOf(id++)));
-        pieces.put(new Coordinate(5, 8), pieceFactory.createBlackKing(String.valueOf(id++)));
+        pieces.put(new Coordinate(4, 1), pieceFactory.createWhiteKing(String.valueOf(id++)));
+        pieces.put(new Coordinate(4, 8), pieceFactory.createBlackKing(String.valueOf(id++)));
 
 
         return new Board(8, 8, pieces);

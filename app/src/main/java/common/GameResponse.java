@@ -1,15 +1,15 @@
 package common;
 
-public class GameResponse<T, String> {
-    private final T game;
+public class GameResponse {
+    private final Game game;
     private final String message;
 
-    public GameResponse(T game, String message) {
+    public GameResponse(Game game, String message) {
         this.game = game;
         this.message = message;
     }
 
-    public T getGame() {
+    public Game getGame() {
         return this.game;
     }
 

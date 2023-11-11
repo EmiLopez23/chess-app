@@ -1,16 +1,16 @@
 package common;
 
-public class MoveResult<Board, String> {
-    private final Board board;
+public class MoveResponse {
+    private final Game game;
     private final String message;
 
-    public MoveResult(Board board, String message) {
-        this.board = board;
+    public MoveResponse(Game game, String message) {
+        this.game = game;
         this.message = message;
     }
 
-    public Board getBoard() {
-        return this.board;
+    public Game getGame() {
+        return this.game;
     }
 
     public Boolean isValid() {

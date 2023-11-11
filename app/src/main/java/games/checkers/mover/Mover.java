@@ -4,38 +4,37 @@ import common.*;
 import common.enums.Color;
 import common.enums.PieceType;
 import games.checkers.factory.PieceFactory;
+import common.Game;
 
 import java.util.*;
 
 public class Mover implements SimpleMover {
     PieceFactory pieceFactory = new PieceFactory();
     @Override
-    public MoveResult<Board, String> move(List<Board> history, Coordinate from, Coordinate to, Player currentPlayer) {
-        Board currentBoard = history.get(history.size() - 1);
+    public MoveResponse move(Game game, Coordinate from, Coordinate to) {
+        Board currentBoard = game.getBoard();
         Piece currentPiece = currentBoard.getBoard().get(from);
-        if(currentPiece == null) {
-            return new MoveResult<>(currentBoard, "No piece in that coordinate");
-        }
-        if(currentPlayer.getColor() != currentPiece.getColor()) {
-            return new MoveResult<>(currentBoard, "Not your turn");
-        }
-        if(from.equals(to)) {
-            return new MoveResult<>(currentBoard, "You can't move to the same place");
-        }
-        if(currentPiece.getValidator().isValid(history, from, to)) {
-            Map<Coordinate, Piece> newBoard = new HashMap<>(currentBoard.getBoard());
+        if(currentPiece.getValidator().isValid(game.getBoards(), from, to)) {
+            Map<Coordinate, Piece> newPieces = new HashMap<>(currentBoard.getBoard());
             if(isForcedToEat(currentBoard, from, to)) {
-                return new MoveResult<>(currentBoard, "You are forced to eat");
+                return new MoveResponse(game, "You are forced to eat");
             }
-            tryEat(currentBoard,newBoard,currentPiece, from, to);
-            tryPromotion(currentBoard,newBoard,currentPiece, to);
-            newBoard.remove(from);
-            return new MoveResult<>(new Board(currentBoard.getRowSize(), currentBoard.getColumnSize(), newBoard), null);
+            tryEat(newPieces, from, to);
+            tryPromotion(currentBoard,newPieces,currentPiece, to);
+            newPieces.remove(from);
+            Board newBoardObject = new Board(currentBoard.getRowSize(), currentBoard.getColumnSize(), newPieces);
+            return new MoveResponse(getNewGame(game, newBoardObject), null);
         }
-        return new MoveResult<>(currentBoard, "Invalid movement");
+        return new MoveResponse(game, "Invalid movement");
     }
 
-    private void tryEat(Board board,Map<Coordinate, Piece> pieces, Piece currentPiece, Coordinate from, Coordinate to) {
+    private Game getNewGame(Game game, Board newBoard){
+        List<Board> newBoards = new ArrayList<>(game.getBoards());
+        newBoards.add(newBoard);
+        return new Game(newBoards, game.getMover(), game.getPlayers(), new TurnManager(game.getTurnManager().nextPlayer()), game.getWinValidator());
+    }
+
+    private void tryEat(Map<Coordinate, Piece> pieces, Coordinate from, Coordinate to) {
         if(Math.abs(from.row() - to.row()) > 1){
             Coordinate pieceInBetween = new Coordinate((from.column() + to.column()) / 2, (from.row() + to.row()) / 2);
             pieces.remove(pieceInBetween);
@@ -46,7 +45,7 @@ public class Mover implements SimpleMover {
         String pieceId = currentPiece.getId();
         Color color = currentPiece.getColor();
         PieceType pieceType = currentPiece.getPieceType();
-        if( pieceType != PieceType.QUEEN && (to.row() == board.getRowSize() || to.row() == 1)) {
+        if( pieceType == PieceType.PAWN && (to.row() == board.getRowSize() || to.row() == 1)) {
             pieces.put(to, pieceFactory.createQueen(pieceId, color));
             return;
         }

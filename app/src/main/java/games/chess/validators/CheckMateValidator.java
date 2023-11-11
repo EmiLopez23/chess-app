@@ -10,10 +10,8 @@ import java.util.Map;
 
 public class CheckMateValidator implements MovementValidator {
     private MovementValidator checkValidator;
-    private Mover mover;
-    public CheckMateValidator(MovementValidator checkValidator, Mover mover) {
+    public CheckMateValidator(MovementValidator checkValidator) {
         this.checkValidator = checkValidator;
-        this.mover = mover;
     }
     @Override
     public boolean isValid(List<Board> boardHistory, Coordinate from, Coordinate to) {
@@ -26,16 +24,19 @@ public class CheckMateValidator implements MovementValidator {
             for (int col = 1; col < currentBoard.getColumnSize(); col++) {
                 Coordinate currentPosition = new Coordinate(col, row);
                 for (Map.Entry<Coordinate, Piece> piece : pieces.entrySet()) {
+                    Piece currentPiece = piece.getValue();
+                    Coordinate currentPiecePosition = piece.getKey();
                     Board newBoard = currentBoard.copy();
-                    MoveResult<Board, String> moveResult = mover.move(new ArrayList<>(List.of(newBoard)), piece.getKey(), currentPosition, new Player(currentTurn));
-                    if (moveResult.isValid()) {
+                    if(currentPiece.getColor() == currentTurn && currentPiece.getValidator().isValid(boardHistory, currentPiecePosition, currentPosition)) {
+                        newBoard.getBoard().remove(currentPiecePosition);
+                        newBoard.getBoard().put(currentPosition, currentPiece);
                         List<Board> newHistory = new ArrayList<>(boardHistory);
-                        newHistory.add(moveResult.getBoard());
-                        if (checkValidator.isValid(newHistory, piece.getKey(), currentPosition)) return false;
+                        newHistory.add(newBoard);
+                        if (checkValidator.isValid(newHistory, currentPiecePosition, currentPosition)) return false;
                     }
                 }
             }
-            
+
         }
         return true;
     }
