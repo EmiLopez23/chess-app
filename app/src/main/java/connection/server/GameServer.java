@@ -1,11 +1,13 @@
 package connection.server;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import connection.server.listeners.GameListener;
+import connection.server.listeners.GameServerListener;
+import connection.server.listeners.MoveListener;
 import edu.austral.dissis.chess.gui.*;
 import edu.austral.ingsis.clientserver.Message;
 import edu.austral.ingsis.clientserver.Server;
 import edu.austral.ingsis.clientserver.ServerBuilder;
-import edu.austral.ingsis.clientserver.netty.server.NettyServerBuilder;
 
 public class GameServer {
 

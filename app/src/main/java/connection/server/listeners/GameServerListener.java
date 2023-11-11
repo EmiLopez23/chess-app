@@ -1,5 +1,6 @@
-package connection.server;
+package connection.server.listeners;
 
+import connection.server.GameServer;
 import edu.austral.dissis.chess.gui.GameEngine;
 import edu.austral.dissis.chess.gui.GameEventListener;
 import edu.austral.dissis.chess.gui.Move;
