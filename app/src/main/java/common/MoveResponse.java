@@ -1,23 +1,10 @@
 package common;
 
-public class MoveResponse {
-    private final Game game;
-    private final String message;
+import common.enums.GameState;
 
-    public MoveResponse(Game game, String message) {
-        this.game = game;
-        this.message = message;
-    }
-
-    public Game getGame() {
-        return this.game;
-    }
+public record MoveResponse(Game game, String message, GameState state) {
 
     public Boolean isValid() {
-        return this.message == null;
-    }
-
-    public String getMessage() {
-        return this.message;
+        return state == GameState.KEEP_PLAYING;
     }
 }

@@ -2,8 +2,6 @@ package connection.client;
 
 import edu.austral.dissis.chess.gui.GameEventListener;
 import edu.austral.dissis.chess.gui.Move;
-import edu.austral.ingsis.clientserver.Client;
-import edu.austral.ingsis.clientserver.Message;
 import org.jetbrains.annotations.NotNull;
 
 public class GameListener implements GameEventListener {

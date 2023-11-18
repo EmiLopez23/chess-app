@@ -12,7 +12,7 @@ public class Piece {
 
     private final MovementValidator validator;
 
-    public Piece(String id,Color color, PieceType pieceType, MovementValidator validator) {
+    public Piece(String id, Color color, PieceType pieceType, MovementValidator validator) {
         this.id = id;
         this.color = color;
         this.pieceType = pieceType;
@@ -26,6 +26,7 @@ public class Piece {
     public String getId() {
         return this.id;
     }
+
     public MovementValidator getValidator() {
         return this.validator;
     }

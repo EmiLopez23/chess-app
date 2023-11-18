@@ -1,32 +1,39 @@
 package games.chess.factory;
 
-import common.validators.*;
+import common.Coordinate;
 import common.Piece;
 import common.enums.Color;
 import common.enums.PieceType;
+import common.validators.*;
+import common.validators.DiagonalValidator;
 import games.chess.validators.*;
 
+import java.util.List;
+
 public class PieceFactory {
-    public Piece createWhitePawn(String id){
+
+    public Piece createWhitePawn(String id) {
 
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
+                new GoForwardInYValidator(true),
                 new CompositeOrValidator(
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new VerticalValidator(true),
-                                new CanEatValidator(false)
+                                new VerticalValidator(),
+                                new IsAllowedToEatValidator(false)
                         ),
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new DiagonalValidator(true),
-                                new CanEatValidator(true)
+                                new DiagonalValidator(),
+                                new IsAllowedToEatValidator(true)
                         ),
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(2),
-                                new VerticalValidator(true),
-                                new CanEatValidator(false),
+                                new VerticalValidator(),
+                                new IsAllowedToEatValidator(false),
                                 new FirstMoveValidator()
                         )
                 )
@@ -35,27 +42,29 @@ public class PieceFactory {
 
     }
 
-    public Piece createBlackPawn(String id){
+    public Piece createBlackPawn(String id) {
 
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
+                new GoForwardInYValidator(false),
                 new CompositeOrValidator(
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new VerticalValidator(false),
-                                new CanEatValidator(false)
+                                new VerticalValidator(),
+                                new IsAllowedToEatValidator(false)
                         ),
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new DiagonalValidator(false),
-                                new CanEatValidator(true)
+                                new DiagonalValidator(),
+                                new IsAllowedToEatValidator(true)
                         ),
                         new CompositeAndValidator(
                                 new FirstMoveValidator(),
                                 new LimitedMoveValidator(2),
-                                new VerticalValidator(false),
-                                new CanEatValidator(false)
+                                new VerticalValidator(),
+                                new IsAllowedToEatValidator(false)
                         )
                 )
         );
@@ -63,139 +72,161 @@ public class PieceFactory {
 
     }
 
-    public Piece createWhiteRook(String id){
+    public Piece createWhiteRook(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
                 new CompositeOrValidator(
-                        new VerticalValidator(true),
-                        new VerticalValidator(false),
-                        new HorizontalValidator(true),
-                        new HorizontalValidator(false)
+                        new VerticalValidator(),
+                        new HorizontalValidator()
                 )
         );
         return new Piece(id, Color.WHITE, PieceType.ROOK, validator);
     }
 
-    public Piece createBlackRook(String id){
+    public Piece createBlackRook(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
                 new CompositeOrValidator(
-                        new VerticalValidator(true),
-                        new VerticalValidator(false),
-                        new HorizontalValidator(true),
-                        new HorizontalValidator(false)
+                        new VerticalValidator(),
+                        new HorizontalValidator()
                 )
         );
         return new Piece(id, Color.BLACK, PieceType.ROOK, validator);
     }
 
-    public Piece createWhiteKnight(String id){
+    public Piece createWhiteKnight(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
-                new LValidator()
+                new JumpValidator(createKnightCoordinates())
         );
         return new Piece(id, Color.WHITE, PieceType.KNIGHT, validator);
     }
 
-    public Piece createBlackKnight(String id){
+    public Piece createBlackKnight(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
-                new LValidator()
+                new JumpValidator(createKnightCoordinates())
         );
         return new Piece(id, Color.BLACK, PieceType.KNIGHT, validator);
     }
 
-    public Piece createWhiteBishop(String id){
+    public Piece createWhiteBishop(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
-                new CompositeOrValidator(
-                        new DiagonalValidator(true),
-                        new DiagonalValidator(false)
-                )
+                new AllowEnemyPieceInBetweenValidator(false),
+                new DiagonalValidator()
         );
         return new Piece(id, Color.WHITE, PieceType.BISHOP, validator);
     }
 
-    public Piece createBlackBishop(String id){
+    public Piece createBlackBishop(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
-                new CompositeOrValidator(
-                        new DiagonalValidator(true),
-                        new DiagonalValidator(false)
-                )
+                new AllowEnemyPieceInBetweenValidator(false),
+                new DiagonalValidator()
         );
         return new Piece(id, Color.BLACK, PieceType.BISHOP, validator);
     }
 
-    public Piece createWhiteQueen(String id){
+    public Piece createWhiteQueen(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
                 new CompositeOrValidator(
-                        new VerticalValidator(true),
-                        new VerticalValidator(false),
-                        new HorizontalValidator(true),
-                        new HorizontalValidator(false),
-                        new DiagonalValidator(true),
-                        new DiagonalValidator(false)
+                        new VerticalValidator(),
+                        new HorizontalValidator(),
+                        new DiagonalValidator()
                 )
         );
         return new Piece(id, Color.WHITE, PieceType.QUEEN, validator);
     }
 
-    public Piece createBlackQueen(String id){
+    public Piece createBlackQueen(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
                 new CompositeOrValidator(
-                        new VerticalValidator(true),
-                        new VerticalValidator(false),
-                        new HorizontalValidator(true),
-                        new HorizontalValidator(false),
-                        new DiagonalValidator(true),
-                        new DiagonalValidator(false)
+                        new VerticalValidator(),
+                        new HorizontalValidator(),
+                        new DiagonalValidator()
                 )
         );
         return new Piece(id, Color.BLACK, PieceType.QUEEN, validator);
     }
 
-    public Piece createWhiteKing(String id){
+    public Piece createWhiteKing(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new LimitedMoveValidator(1),
                 new NoSelfEatingValidator(),
                 new CompositeOrValidator(
-                        new VerticalValidator(true),
-                        new VerticalValidator(false),
-                        new HorizontalValidator(true),
-                        new HorizontalValidator(false),
-                        new DiagonalValidator(true),
-                        new DiagonalValidator(false)
+                        new VerticalValidator(),
+                        new HorizontalValidator(),
+                        new DiagonalValidator()
                 )
         );
         return new Piece(id, Color.WHITE, PieceType.KING, validator);
     }
 
-    public Piece createBlackKing(String id){
+    public Piece createBlackKing(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new LimitedMoveValidator(1),
                 new NoSelfEatingValidator(),
                 new CompositeOrValidator(
-                        new VerticalValidator(true),
-                        new VerticalValidator(false),
-                        new HorizontalValidator(true),
-                        new HorizontalValidator(false),
-                        new DiagonalValidator(true),
-                        new DiagonalValidator(false)
+                        new VerticalValidator(),
+                        new HorizontalValidator(),
+                        new DiagonalValidator()
                 )
         );
         return new Piece(id, Color.BLACK, PieceType.KING, validator);
+    }
+
+    public Piece createArchBishop(String id, Color color) {
+        MovementValidator validator = new CompositeAndValidator(
+                new OutOfBoundsValidator(),
+                new NoSelfEatingValidator(),
+                new CompositeOrValidator(
+                        new DiagonalValidator(),
+                        new JumpValidator(createKnightCoordinates())
+                )
+        );
+        return new Piece(id, color, PieceType.ARCHBISHOP, validator);
+    }
+
+    public Piece createChancellor(String id, Color color) {
+        MovementValidator validator = new CompositeAndValidator(
+                new OutOfBoundsValidator(),
+                new NoSelfEatingValidator(),
+                new CompositeOrValidator(
+                        new VerticalValidator(),
+                        new HorizontalValidator(),
+                        new JumpValidator(createKnightCoordinates())
+                )
+        );
+        return new Piece(id, color, PieceType.CHANCELLOR, validator);
+    }
+
+    private List<Coordinate> createKnightCoordinates() {
+        return List.of(
+                new Coordinate(1, 2),
+                new Coordinate(1, -2),
+                new Coordinate(-1, 2),
+                new Coordinate(-1, -2),
+                new Coordinate(2, 1),
+                new Coordinate(2, -1),
+                new Coordinate(-2, 1),
+                new Coordinate(-2, -1)
+        );
     }
 }

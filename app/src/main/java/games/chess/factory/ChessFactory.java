@@ -2,9 +2,14 @@ package games.chess.factory;
 
 import common.*;
 import common.enums.Color;
-import games.chess.mover.Mover;
+import common.mover.Mover;
+import common.mover.SequenceMover;
+import common.mover.ValidBasicsMover;
+import games.chess.mover.ChessMover;
+import games.chess.mover.ChessPromoterMover;
 import games.chess.validators.CheckMateValidator;
 import games.chess.validators.CheckValidator;
+import games.chess.validators.HasEatenValidator;
 
 import java.util.List;
 
@@ -14,7 +19,32 @@ public class ChessFactory {
     public Game createClassicGame() {
         List<Player> playerList = List.of(new Player(Color.WHITE), new Player(Color.BLACK));
         List<Board> boardList = List.of(boardFactory.createClassicBoard());
-        SimpleMover mover = new Mover();
-        return new Game(boardList,mover,playerList, new TurnManager(playerList.get(0)), new CheckMateValidator(new CheckValidator()));
+        Mover mover = new SequenceMover(
+                new ValidBasicsMover(),
+                new ChessMover(),
+                new ChessPromoterMover()
+        );
+        return new Game(boardList, mover, playerList, new TurnManager(playerList.get(0)), new CheckMateValidator(new CheckValidator()));
+    }
+
+    public Game createArchGame(){
+        List<Player> playerList = List.of(new Player(Color.WHITE), new Player(Color.BLACK));
+        List<Board> boardList = List.of(boardFactory.createArchBoard());
+        Mover mover = new SequenceMover(new ValidBasicsMover(), new ChessMover());
+        return new Game(boardList, mover, playerList, new TurnManager(playerList.get(0)), new CheckMateValidator(new CheckValidator()));
+    }
+
+    public Game createCapaBlancaGame(){
+        List<Player> playerList = List.of(new Player(Color.WHITE), new Player(Color.BLACK));
+        List<Board> boardList = List.of(boardFactory.createCapaBlancaBoard());
+        Mover mover = new SequenceMover(new ValidBasicsMover(), new ChessMover());
+        return new Game(boardList, mover, playerList, new TurnManager(playerList.get(0)), new CheckMateValidator(new CheckValidator()));
+    }
+
+    public Game createFirstToEatWins(){
+        List<Player> playerList = List.of(new Player(Color.WHITE), new Player(Color.BLACK));
+        List<Board> boardList = List.of(boardFactory.createClassicBoard());
+        Mover mover = new ChessMover();
+        return new Game(boardList, mover, playerList, new TurnManager(playerList.get(0)), new HasEatenValidator());
     }
 }

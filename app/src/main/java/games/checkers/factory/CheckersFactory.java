@@ -1,12 +1,12 @@
 package games.checkers.factory;
 
 import common.Board;
+import common.Game;
 import common.Player;
 import common.TurnManager;
 import common.enums.Color;
-import common.Game;
-import games.checkers.mover.Mover;
-import games.checkers.validators.ZeroEnemyPiecesValidator;
+import games.checkers.mover.CheckersMover;
+import common.validators.ZeroEnemyPiecesValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class CheckersFactory {
         boardList.add(boardFactory.createClassicBoard());
         playerList.add(new Player(Color.WHITE));
         playerList.add(new Player(Color.BLACK));
-        Mover mover = new Mover();
-        return new Game(boardList,mover,playerList, new TurnManager(playerList.get(0)), new ZeroEnemyPiecesValidator());
+        CheckersMover checkersMover = new CheckersMover();
+        return new Game(boardList, checkersMover, playerList, new TurnManager(playerList.get(0)), new ZeroEnemyPiecesValidator());
     }
 }

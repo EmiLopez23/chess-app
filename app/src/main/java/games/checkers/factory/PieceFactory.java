@@ -4,9 +4,9 @@ import common.Piece;
 import common.enums.Color;
 import common.enums.PieceType;
 import common.validators.*;
-import games.checkers.validators.DiagonalValidator;
-import games.checkers.validators.EmptySquareValidator;
-import games.checkers.validators.PieceInBetweenValidator;
+import common.validators.DiagonalValidator;
+import common.validators.EmptySquareValidator;
+import common.validators.AllowEnemyPieceInBetweenValidator;
 
 public class PieceFactory {
 
@@ -14,15 +14,16 @@ public class PieceFactory {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new EmptySquareValidator(),
+                new GoForwardInYValidator(false),
                 new CompositeOrValidator(
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new DiagonalValidator(false)
+                                new DiagonalValidator()
                         ),
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(2),
-                                new DiagonalValidator(false),
-                                new PieceInBetweenValidator()
+                                new DiagonalValidator(),
+                                new AllowEnemyPieceInBetweenValidator(true)
                         )
                 )
         );
@@ -33,15 +34,16 @@ public class PieceFactory {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new EmptySquareValidator(),
+                new GoForwardInYValidator(true),
                 new CompositeOrValidator(
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new DiagonalValidator(true)
+                                new DiagonalValidator()
                         ),
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(2),
-                                new DiagonalValidator(true),
-                                new PieceInBetweenValidator()
+                                new DiagonalValidator(),
+                                new AllowEnemyPieceInBetweenValidator(true)
                         )
                 )
         );
@@ -53,20 +55,18 @@ public class PieceFactory {
                 new OutOfBoundsValidator(),
                 new EmptySquareValidator(),
                 new CompositeOrValidator(
+                        new GoForwardInYValidator(true),
+                        new GoForwardInYValidator(false)
+                ),
+                new CompositeOrValidator(
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
-                                new CompositeOrValidator(
-                                        new DiagonalValidator(true),
-                                        new DiagonalValidator(false)
-                                )
+                                new DiagonalValidator()
                         ),
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(2),
-                                new PieceInBetweenValidator(),
-                                new CompositeOrValidator(
-                                        new DiagonalValidator(true),
-                                        new DiagonalValidator(false)
-                                )
+                                new AllowEnemyPieceInBetweenValidator(true),
+                                new DiagonalValidator()
                         )
                 )
         );

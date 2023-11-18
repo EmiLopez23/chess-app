@@ -9,11 +9,8 @@ import edu.austral.dissis.chess.gui.*;
 import edu.austral.ingsis.clientserver.Client;
 import edu.austral.ingsis.clientserver.ClientBuilder;
 import edu.austral.ingsis.clientserver.Message;
-import edu.austral.ingsis.clientserver.netty.client.NettyClientBuilder;
 import javafx.application.Platform;
-import kotlin.Unit;
 
-import java.lang.reflect.Type;
 import java.net.InetSocketAddress;
 
 public class GameClient {
@@ -21,6 +18,7 @@ public class GameClient {
     private final GameView gameView;
 
     private final ClientBuilder builder;
+
     public GameClient(GameView gameView, ClientBuilder builder) {
         this.gameView = gameView;
         this.builder = builder;
@@ -51,11 +49,15 @@ public class GameClient {
 
     private Client buildClient() {
         return builder
-                .withAddress(new InetSocketAddress("localhost",8080))
-                .addMessageListener("init", new TypeReference<>(){}, new InitListener(this))
-                .addMessageListener("new-game-state", new TypeReference<>(){}, new NewStateListener(this))
-                .addMessageListener("invalid-move", new TypeReference<>(){}, new InvalidMoveListener(this))
-                .addMessageListener("game-over", new TypeReference<>(){}, new GameOverListener(this))
+                .withAddress(new InetSocketAddress("localhost", 8080))
+                .addMessageListener("init", new TypeReference<>() {
+                }, new InitListener(this))
+                .addMessageListener("new-game-state", new TypeReference<>() {
+                }, new NewStateListener(this))
+                .addMessageListener("invalid-move", new TypeReference<>() {
+                }, new InvalidMoveListener(this))
+                .addMessageListener("game-over", new TypeReference<>() {
+                }, new GameOverListener(this))
                 .build();
     }
 }

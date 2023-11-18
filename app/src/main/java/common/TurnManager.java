@@ -13,7 +13,7 @@ public class TurnManager {
         return this.currentPlayer;
     }
 
-    public Player nextPlayer(){
+    public Player nextPlayer() {
         Color nextColor = currentPlayer.getColor() == Color.WHITE ? Color.BLACK : Color.WHITE;
         return new Player(nextColor);
     }

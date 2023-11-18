@@ -11,10 +11,10 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 
 fun main() {
-    launch(App2::class.java)
+    launch(Client2::class.java)
 }
 
-class App2 : Application() {
+class Client2 : Application() {
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     private val root = GameView(imageResolver)
     private val builder = NettyClientBuilder.createDefault()
