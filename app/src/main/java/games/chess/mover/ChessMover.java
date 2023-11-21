@@ -21,7 +21,7 @@ public class ChessMover implements Mover {
     public MoveResponse move(Game game, Movement move) {
         Board currentBoard = game.getBoard();
         Piece currentPiece = currentBoard.getPieces().get(move.from());
-        if(!currentPiece.getValidator().isValid(game.history(), move)) { return new MoveResponse(game, "Invalid movement", GameState.INVALID_MOVE);}
+        if(!currentPiece.validator().isValid(game.history(), move)) { return new MoveResponse(game, "Invalid movement", GameState.INVALID_MOVE);}
 
         Board newBoardObject = executeMove(currentBoard, currentPiece, move);
         Game newGame = getNewGame(game, newBoardObject);

@@ -25,12 +25,12 @@ public class AllowEnemyPieceInBetweenValidator implements MovementValidator {
             Piece piece = currentBoard.getPiece(current);
             if (isOutOfBounds(currentBoard, current)) return false; //if the piece is out of bounds, return false
             if ( piece != null ) {
-                if (piece.getColor() == currentPiece.getColor()) return false; //if there is a piece of the same color, return false (not allowed to move
-                if (piece.getColor() != currentPiece.getColor()) return allowMove;
+                if (piece.color() == currentPiece.color()) return false; //if there is a piece of the same color, return false (not allowed to move
+                return allowMove;
             }
             current = current.add(movement.direction());
         }
-        return true;
+        return !allowMove;
     }
 
     private boolean isOutOfBounds(Board board, Coordinate current){

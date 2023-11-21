@@ -21,7 +21,7 @@ public class CheckMateValidator implements MovementValidator {
     @Override
     public boolean isValid(List<Board> boardHistory, Movement movement) {
         Board currentBoard = boardHistory.get(boardHistory.size() - 1);
-        Color currentTurn = currentBoard.getPieces().get(movement.to()).getColor() == Color.WHITE ? Color.BLACK : Color.WHITE;
+        Color currentTurn = currentBoard.getPieces().get(movement.to()).color() == Color.WHITE ? Color.BLACK : Color.WHITE;
         Map<Coordinate, Piece> pieces = currentBoard.getPieces();
 
         return cantAvoidCheck(boardHistory, currentBoard, pieces, currentTurn);
@@ -35,8 +35,8 @@ public class CheckMateValidator implements MovementValidator {
                     Piece currentPiece = piece.getValue(); //current piece of the loop
                     Coordinate currentPiecePosition = piece.getKey(); //current coordinate of the loop
                     Board newBoard = currentBoard.copy();
-                    if( currentPiece.getColor() != currentTurn ) continue; //if piece is not of current turn player, pass to next iteration
-                    if (!currentPiece.getValidator().isValid(boardHistory, new Movement(currentPiecePosition, currentPosition))) continue; //if piece move is not valid pass to next iteration
+                    if( currentPiece.color() != currentTurn ) continue; //if piece is not of current turn player, pass to next iteration
+                    if (!currentPiece.validator().isValid(boardHistory, new Movement(currentPiecePosition, currentPosition))) continue; //if piece move is not valid pass to next iteration
                     newBoard.getPieces().remove(currentPiecePosition);
                     newBoard.getPieces().put(currentPosition, currentPiece); //remove the piece from the actual position and move it to destination
                     List<Board> newHistory = new ArrayList<>(boardHistory);

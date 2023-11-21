@@ -2,11 +2,13 @@ package games.chess.factory;
 
 import common.*;
 import common.enums.Color;
+import common.factory.PieceFactory;
 import common.mover.Mover;
 import common.mover.SequenceMover;
 import common.mover.ValidBasicsMover;
+import games.chess.mover.CastlingMover;
 import games.chess.mover.ChessMover;
-import games.chess.mover.ChessPromoterMover;
+import common.mover.PromoterMover;
 import games.chess.validators.CheckMateValidator;
 import games.chess.validators.CheckValidator;
 import games.chess.validators.HasEatenValidator;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class ChessFactory {
     private static final BoardFactory boardFactory = new BoardFactory();
+    private static final PieceFactory pieceFactory = new ChessPieceFactory();
 
     public Game createClassicGame() {
         List<Player> playerList = List.of(new Player(Color.WHITE), new Player(Color.BLACK));
@@ -22,7 +25,8 @@ public class ChessFactory {
         Mover mover = new SequenceMover(
                 new ValidBasicsMover(),
                 new ChessMover(),
-                new ChessPromoterMover()
+                new PromoterMover(pieceFactory),
+                new CastlingMover()
         );
         return new Game(boardList, mover, playerList, new TurnManager(playerList.get(0)), new CheckMateValidator(new CheckValidator()));
     }

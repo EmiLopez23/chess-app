@@ -16,6 +16,6 @@ public class HasEatenValidator implements MovementValidator {
         Piece targetPiece = pastBoard.getPiece(movement.to());
         Piece currentPieceDestiny = currentBoard.getPiece(movement.to());
         if( targetPiece == null) return false;
-        return !Objects.equals(currentPieceDestiny.getId(), targetPiece.getId());
+        return !Objects.equals(currentPieceDestiny.id(), targetPiece.id());
     }
 }

@@ -12,7 +12,7 @@ public record Game(List<Board> history, Mover mover, List<Player> players, TurnM
     }
 
     public MoveResponse play(Movement movement) {
-        MoveResponse moveResult = mover.move(this, movement.from(), movement.to());
+        MoveResponse moveResult = mover.move(this, movement);
         if (!moveResult.isValid()) { //first check if the move is valid to then check if it is game over
             return moveResult;
         }
@@ -27,6 +27,6 @@ public record Game(List<Board> history, Mover mover, List<Player> players, TurnM
     }
 
     public Player getCurrentPlayer() {
-        return turnManager.getCurrentPlayer();
+        return turnManager.currentPlayer();
     }
 }

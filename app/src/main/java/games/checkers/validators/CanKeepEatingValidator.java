@@ -22,7 +22,7 @@ public class CanKeepEatingValidator implements MovementValidator {
         Piece currentPiece = currentBoard.getPieces().get(movement.to());
         List<Coordinate> possibleMoves = getPossibleMoves(movement.to());
         for (Coordinate possibleMove : possibleMoves) {
-            if (currentPiece.getValidator().isValid(boardHistory, new Movement(movement.to(), possibleMove))) {
+            if (currentPiece.validator().isValid(boardHistory, new Movement(movement.to(), possibleMove))) {
                 return true;
             }
         }

@@ -12,6 +12,6 @@ public class NoSelfEatingValidator implements MovementValidator {
         Board board = boardHistory.get(boardHistory.size() - 1);
         Piece targetPiece = board.getPiece(movement.to());
         if (targetPiece == null) return true;
-        return board.getPiece(movement.from()).getColor() != targetPiece.getColor();
+        return board.getPiece(movement.from()).color() != targetPiece.color();
     }
 }

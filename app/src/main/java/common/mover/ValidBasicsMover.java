@@ -10,7 +10,7 @@ public class ValidBasicsMover implements Mover{
         if (currentPiece == null) {
             return new MoveResponse(game, "No piece in that coordinate", GameState.INVALID_MOVE);
         }
-        if (game.getCurrentPlayer().getColor() != currentPiece.getColor()) {
+        if (game.getCurrentPlayer().color() != currentPiece.color()) {
             return new MoveResponse(game, "Not your turn", GameState.INVALID_MOVE);
         }
         if (move.from().equals(move.to())) {

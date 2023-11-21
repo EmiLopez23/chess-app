@@ -3,14 +3,24 @@ package games.checkers.factory;
 import common.Piece;
 import common.enums.Color;
 import common.enums.PieceType;
+import common.factory.PieceFactory;
 import common.validators.*;
 import common.validators.DiagonalValidator;
 import common.validators.EmptySquareValidator;
 import common.validators.AllowEnemyPieceInBetweenValidator;
 
-public class PieceFactory {
+public class CheckersPieceFactory implements PieceFactory {
 
-    public Piece createDarkPiece(String id) {
+
+    @Override
+    public Piece createPiece(String id, Color color, PieceType pieceType) {
+        return switch (pieceType) {
+            case PAWN -> (color == Color.BLACK) ? createDarkPiece(id) : createLightPiece(id);
+            case QUEEN -> createQueen(id, color);
+            default -> throw new IllegalArgumentException("Invalid piece type");
+        };
+    }
+    private Piece createDarkPiece(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new EmptySquareValidator(),
@@ -30,7 +40,7 @@ public class PieceFactory {
         return new Piece(id, Color.BLACK, PieceType.PAWN, validator);
     }
 
-    public Piece createLightPiece(String id) {
+    private Piece createLightPiece(String id) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new EmptySquareValidator(),
@@ -50,14 +60,10 @@ public class PieceFactory {
         return new Piece(id, Color.WHITE, PieceType.PAWN, validator);
     }
 
-    public Piece createQueen(String id, Color color) {
+    private Piece createQueen(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new EmptySquareValidator(),
-                new CompositeOrValidator(
-                        new GoForwardInYValidator(true),
-                        new GoForwardInYValidator(false)
-                ),
                 new CompositeOrValidator(
                         new CompositeAndValidator(
                                 new LimitedMoveValidator(1),
@@ -72,4 +78,5 @@ public class PieceFactory {
         );
         return new Piece(id, color, PieceType.QUEEN, validator);
     }
+
 }

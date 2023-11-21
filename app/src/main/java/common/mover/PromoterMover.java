@@ -1,39 +1,34 @@
-package games.chess.mover;
+package common.mover;
 
 import common.*;
 import common.enums.Color;
 import common.enums.GameState;
 import common.enums.PieceType;
-import common.mover.Mover;
-import games.chess.factory.PieceFactory;
+import common.factory.PieceFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ChessPromoterMover implements Mover {
+public class PromoterMover implements Mover {
 
     private final PieceFactory pieceFactory;
 
-    public ChessPromoterMover() {
-        this.pieceFactory = new PieceFactory();
+    public PromoterMover(PieceFactory pieceFactory) {
+        this.pieceFactory = pieceFactory;
     }
+
     @Override
     public MoveResponse move(Game game, Movement move) {
         Board currentBoard = game.getBoard();
         Map<Coordinate, Piece> newPieces = new HashMap<>(currentBoard.getPieces());
         Piece pieceToPromote = currentBoard.getPiece(move.to());
-        if ( pieceToPromote.getPieceType() != PieceType.PAWN || move.to().row() < currentBoard.getRowSize() && move.to().row() > 1) {
+        if ( pieceToPromote.pieceType() != PieceType.PAWN || move.to().row() < currentBoard.getRowSize() && move.to().row() > 1) {
             return new MoveResponse(game, null, GameState.KEEP_PLAYING);
         }
         newPieces.remove(move.to());
-        if ( pieceToPromote.getColor() == Color.WHITE ){
-            newPieces.put(move.to(), pieceFactory.createWhiteQueen(pieceToPromote.getId()));
-        }
-        else {
-            newPieces.put(move.to(), pieceFactory.createBlackQueen(pieceToPromote.getId()));
-        }
+        newPieces.put(move.to(), pieceFactory.createPiece(pieceToPromote.id(), pieceToPromote.color(), PieceType.QUEEN));
 
         return new MoveResponse(createNewGame(game, newPieces), null, GameState.KEEP_PLAYING);
     }

@@ -4,48 +4,49 @@ import common.Board;
 import common.Coordinate;
 import common.Piece;
 import common.enums.Color;
+import common.enums.PieceType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class BoardFactory {
-    private static final PieceFactory pieceFactory = new PieceFactory();
+    private static final ChessPieceFactory chessPieceFactory = new ChessPieceFactory();
 
     public Board createClassicBoard() {
         int id = 0;
 
         Map<Coordinate, Piece> pieces = new HashMap<>();
-        //create white pawns
+        //create pawns
         for (int i = 1; i <= 8; i++) {
-            pieces.put(new Coordinate(i, 2), pieceFactory.createWhitePawn(String.valueOf(id++)));
-            pieces.put(new Coordinate(i, 7), pieceFactory.createBlackPawn(String.valueOf(id++)));
+            pieces.put(new Coordinate(i, 2), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.PAWN));
+            pieces.put(new Coordinate(i, 7), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.PAWN));
         }
 
-        //create white rooks
-        pieces.put(new Coordinate(1, 1), pieceFactory.createWhiteRook(String.valueOf(id++)));
-        pieces.put(new Coordinate(8, 1), pieceFactory.createWhiteRook(String.valueOf(id++)));
-        pieces.put(new Coordinate(1, 8), pieceFactory.createBlackRook(String.valueOf(id++)));
-        pieces.put(new Coordinate(8, 8), pieceFactory.createBlackRook(String.valueOf(id++)));
+        //create rooks
+        pieces.put(new Coordinate(1, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ROOK));
+        pieces.put(new Coordinate(8, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ROOK));
+        pieces.put(new Coordinate(1, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ROOK));
+        pieces.put(new Coordinate(8, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ROOK));
 
-        //create white knights
-        pieces.put(new Coordinate(2, 1), pieceFactory.createWhiteKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(7, 1), pieceFactory.createWhiteKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(2, 8), pieceFactory.createBlackKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(7, 8), pieceFactory.createBlackKnight(String.valueOf(id++)));
+        //create knights
+        pieces.put(new Coordinate(2, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KNIGHT));
+        pieces.put(new Coordinate(7, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KNIGHT));
+        pieces.put(new Coordinate(2, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KNIGHT));
+        pieces.put(new Coordinate(7, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KNIGHT));
 
-        //create white bishops
-        pieces.put(new Coordinate(3, 1), pieceFactory.createWhiteBishop(String.valueOf(id++)));
-        pieces.put(new Coordinate(6, 1), pieceFactory.createWhiteBishop(String.valueOf(id++)));
-        pieces.put(new Coordinate(3, 8), pieceFactory.createBlackBishop(String.valueOf(id++)));
-        pieces.put(new Coordinate(6, 8), pieceFactory.createBlackBishop(String.valueOf(id++)));
+        //create bishops
+        pieces.put(new Coordinate(3, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.BISHOP));
+        pieces.put(new Coordinate(6, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.BISHOP));
+        pieces.put(new Coordinate(3, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.BISHOP));
+        pieces.put(new Coordinate(6, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.BISHOP));
 
-        //create white queen
-        pieces.put(new Coordinate(4, 1), pieceFactory.createWhiteQueen(String.valueOf(id++)));
-        pieces.put(new Coordinate(4, 8), pieceFactory.createBlackQueen(String.valueOf(id++)));
+        //create queen
+        pieces.put(new Coordinate(4, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.QUEEN));
+        pieces.put(new Coordinate(4, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.QUEEN));
 
-        //create white king
-        pieces.put(new Coordinate(5, 1), pieceFactory.createWhiteKing(String.valueOf(id++)));
-        pieces.put(new Coordinate(5, 8), pieceFactory.createBlackKing(String.valueOf(id++)));
+        //create king
+        pieces.put(new Coordinate(5, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KING));;
+        pieces.put(new Coordinate(5, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KING));
 
 
         return new Board(8, 8, pieces);
@@ -55,37 +56,37 @@ public class BoardFactory {
         int id = 0;
 
         Map<Coordinate, Piece> pieces = new HashMap<>();
-        //create white pawns
+        //create pawns
         for (int i = 1; i <= 8; i++) {
-            pieces.put(new Coordinate(i, 2), pieceFactory.createWhitePawn(String.valueOf(id++)));
-            pieces.put(new Coordinate(i, 7), pieceFactory.createBlackPawn(String.valueOf(id++)));
+            pieces.put(new Coordinate(i, 2), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.PAWN));
+            pieces.put(new Coordinate(i, 7), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.BISHOP));
         }
 
-        //create white rooks
-        pieces.put(new Coordinate(1, 1), pieceFactory.createChancellor(String.valueOf(id++), Color.WHITE));
-        pieces.put(new Coordinate(8, 1), pieceFactory.createChancellor(String.valueOf(id++), Color.WHITE));
-        pieces.put(new Coordinate(1, 8), pieceFactory.createChancellor(String.valueOf(id++), Color.BLACK));
-        pieces.put(new Coordinate(8, 8), pieceFactory.createChancellor(String.valueOf(id++), Color.BLACK));
+        //create rooks
+        pieces.put(new Coordinate(1, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.CHANCELLOR));
+        pieces.put(new Coordinate(8, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.CHANCELLOR));
+        pieces.put(new Coordinate(1, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.CHANCELLOR));
+        pieces.put(new Coordinate(8, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.CHANCELLOR));
 
-        //create white knights
-        pieces.put(new Coordinate(2, 1), pieceFactory.createWhiteKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(7, 1), pieceFactory.createWhiteKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(2, 8), pieceFactory.createBlackKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(7, 8), pieceFactory.createBlackKnight(String.valueOf(id++)));
+        //create knights
+        pieces.put(new Coordinate(2, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KNIGHT));
+        pieces.put(new Coordinate(7, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KNIGHT));
+        pieces.put(new Coordinate(2, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KNIGHT));
+        pieces.put(new Coordinate(7, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KNIGHT));
 
-        //create white bishops
-        pieces.put(new Coordinate(3, 1), pieceFactory.createArchBishop(String.valueOf(id++), Color.WHITE));
-        pieces.put(new Coordinate(6, 1), pieceFactory.createArchBishop(String.valueOf(id++), Color.WHITE));
-        pieces.put(new Coordinate(3, 8), pieceFactory.createArchBishop(String.valueOf(id++), Color.BLACK));
-        pieces.put(new Coordinate(6, 8), pieceFactory.createArchBishop(String.valueOf(id++), Color.BLACK));
+        //create bishops
+        pieces.put(new Coordinate(3, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ARCHBISHOP));
+        pieces.put(new Coordinate(6, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ARCHBISHOP));
+        pieces.put(new Coordinate(3, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ARCHBISHOP));
+        pieces.put(new Coordinate(6, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ARCHBISHOP));
 
-        //create white queen
-        pieces.put(new Coordinate(4, 1), pieceFactory.createWhiteQueen(String.valueOf(id++)));
-        pieces.put(new Coordinate(4, 8), pieceFactory.createBlackQueen(String.valueOf(id++)));
+        //create queen
+        pieces.put(new Coordinate(4, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.QUEEN));
+        pieces.put(new Coordinate(4, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.QUEEN));
 
-        //create white king
-        pieces.put(new Coordinate(5, 1), pieceFactory.createWhiteKing(String.valueOf(id++)));
-        pieces.put(new Coordinate(5, 8), pieceFactory.createBlackKing(String.valueOf(id++)));
+        //create king
+        pieces.put(new Coordinate(5, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KING));;
+        pieces.put(new Coordinate(5, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KING));
 
 
         return new Board(8, 8, pieces);
@@ -97,52 +98,52 @@ public class BoardFactory {
         Map<Coordinate, Piece> pieces = new HashMap<>();
 
         for (int i = 1; i <= 10; i++) {
-            pieces.put(new Coordinate(i, 2), pieceFactory.createWhitePawn(String.valueOf(id++)));
-            pieces.put(new Coordinate(i, 7), pieceFactory.createBlackPawn(String.valueOf(id++)));
+            pieces.put(new Coordinate(i, 2), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.PAWN));
+            pieces.put(new Coordinate(i, 7), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.PAWN));
         }
         //White rooks
-        pieces.put(new Coordinate(1, 1), pieceFactory.createWhiteRook(String.valueOf(id++)));
-        pieces.put(new Coordinate(10, 1), pieceFactory.createWhiteRook(String.valueOf(id++)));
+        pieces.put(new Coordinate(1, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ROOK));
+        pieces.put(new Coordinate(10, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ROOK));
 
         //Black rooks
-        pieces.put(new Coordinate(1, 8), pieceFactory.createBlackRook(String.valueOf(id++)));
-        pieces.put(new Coordinate(10, 8), pieceFactory.createBlackRook(String.valueOf(id++)));
+        pieces.put(new Coordinate(1, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ROOK));
+        pieces.put(new Coordinate(10, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ROOK));
 
         //White knights
-        pieces.put(new Coordinate(2, 1), pieceFactory.createWhiteKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(9, 1), pieceFactory.createWhiteKnight(String.valueOf(id++)));
+        pieces.put(new Coordinate(2, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KNIGHT));
+        pieces.put(new Coordinate(9, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KNIGHT));
 
         //Black knights
-        pieces.put(new Coordinate(2, 8), pieceFactory.createBlackKnight(String.valueOf(id++)));
-        pieces.put(new Coordinate(9, 8), pieceFactory.createBlackKnight(String.valueOf(id++)));
+        pieces.put(new Coordinate(2, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KNIGHT));
+        pieces.put(new Coordinate(9, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KNIGHT));
 
         //archbishops
-        pieces.put(new Coordinate(3, 1), pieceFactory.createArchBishop(String.valueOf(id++), Color.WHITE));
-        pieces.put(new Coordinate(3, 8), pieceFactory.createArchBishop(String.valueOf(id++), Color.BLACK));
+        pieces.put(new Coordinate(3, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.ARCHBISHOP));
+        pieces.put(new Coordinate(3, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.ARCHBISHOP));
 
         //chancellors
-        pieces.put(new Coordinate(8, 1), pieceFactory.createChancellor(String.valueOf(id++), Color.WHITE));
-        pieces.put(new Coordinate(8, 8), pieceFactory.createChancellor(String.valueOf(id++), Color.BLACK));
+        pieces.put(new Coordinate(8, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.CHANCELLOR));
+        pieces.put(new Coordinate(8, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.CHANCELLOR));
 
         //White bishops
-        pieces.put(new Coordinate(4, 1), pieceFactory.createWhiteBishop(String.valueOf(id++)));
-        pieces.put(new Coordinate(7, 1), pieceFactory.createWhiteBishop(String.valueOf(id++)));
+        pieces.put(new Coordinate(4, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.BISHOP));
+        pieces.put(new Coordinate(7, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.BISHOP));
 
         //Black bishops
-        pieces.put(new Coordinate(4, 8), pieceFactory.createBlackBishop(String.valueOf(id++)));
-        pieces.put(new Coordinate(7, 8), pieceFactory.createBlackBishop(String.valueOf(id++)));
+        pieces.put(new Coordinate(4, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.BISHOP));
+        pieces.put(new Coordinate(7, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.BISHOP));
 
         //White queen
-        pieces.put(new Coordinate(5, 1), pieceFactory.createWhiteQueen(String.valueOf(id++)));
+        pieces.put(new Coordinate(5, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.QUEEN));
 
         //Black queen
-        pieces.put(new Coordinate(5, 8), pieceFactory.createBlackQueen(String.valueOf(id++)));
+        pieces.put(new Coordinate(5, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.QUEEN));
 
         //White king
-        pieces.put(new Coordinate(6, 1), pieceFactory.createWhiteKing(String.valueOf(id++)));
+        pieces.put(new Coordinate(6, 1), chessPieceFactory.createPiece(String.valueOf(id++), Color.WHITE, PieceType.KING));
 
         //Black king
-        pieces.put(new Coordinate(6, 8), pieceFactory.createBlackKing(String.valueOf(id++)));
+        pieces.put(new Coordinate(6, 8), chessPieceFactory.createPiece(String.valueOf(id++), Color.BLACK, PieceType.KING));
 
 
 

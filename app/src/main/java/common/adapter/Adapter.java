@@ -34,7 +34,7 @@ public class Adapter {
         for (Map.Entry<Coordinate, Piece> entry : pieces.entrySet()) {
             Coordinate coordinate = entry.getKey();
             Piece piece = entry.getValue();
-            chessPieces.add(new ChessPiece(piece.getId(), colorToPlayerColor(piece.getColor()), coordinateToPosition(coordinate), piece.getPieceType().toString().toLowerCase()));
+            chessPieces.add(new ChessPiece(piece.id(), colorToPlayerColor(piece.color()), coordinateToPosition(coordinate), piece.pieceType().toString().toLowerCase()));
         }
         return chessPieces;
     }

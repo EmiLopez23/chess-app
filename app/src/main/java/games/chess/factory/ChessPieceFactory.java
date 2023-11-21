@@ -4,15 +4,30 @@ import common.Coordinate;
 import common.Piece;
 import common.enums.Color;
 import common.enums.PieceType;
+import common.factory.PieceFactory;
 import common.validators.*;
 import common.validators.DiagonalValidator;
 import games.chess.validators.*;
 
 import java.util.List;
 
-public class PieceFactory {
+public class ChessPieceFactory implements PieceFactory {
 
-    public Piece createWhitePawn(String id) {
+    @Override
+    public Piece createPiece(String id, Color color, PieceType pieceType) {
+        return switch (pieceType) {
+            case KING -> createKing(id,color);
+            case PAWN -> (color == Color.BLACK) ? createBlackPawn(id) : createWhitePawn(id);
+            case ROOK -> createRook(id, color);
+            case KNIGHT -> createKnight(id, color);
+            case BISHOP -> createBishop(id, color);
+            case QUEEN -> createQueen(id, color);
+            case ARCHBISHOP -> createArchBishop(id, color);
+            case CHANCELLOR -> createChancellor(id, color);
+            default -> throw new IllegalArgumentException("Invalid piece type");
+        };
+    }
+    private Piece createWhitePawn(String id) {
 
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
@@ -42,7 +57,7 @@ public class PieceFactory {
 
     }
 
-    public Piece createBlackPawn(String id) {
+    private Piece createBlackPawn(String id) {
 
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
@@ -72,7 +87,7 @@ public class PieceFactory {
 
     }
 
-    public Piece createWhiteRook(String id) {
+    private Piece createRook(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
@@ -82,61 +97,29 @@ public class PieceFactory {
                         new HorizontalValidator()
                 )
         );
-        return new Piece(id, Color.WHITE, PieceType.ROOK, validator);
+        return new Piece(id, color, PieceType.ROOK, validator);
     }
 
-    public Piece createBlackRook(String id) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new AllowEnemyPieceInBetweenValidator(false),
-                new CompositeOrValidator(
-                        new VerticalValidator(),
-                        new HorizontalValidator()
-                )
-        );
-        return new Piece(id, Color.BLACK, PieceType.ROOK, validator);
-    }
-
-    public Piece createWhiteKnight(String id) {
+    private Piece createKnight(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
                 new JumpValidator(createKnightCoordinates())
         );
-        return new Piece(id, Color.WHITE, PieceType.KNIGHT, validator);
+        return new Piece(id, color, PieceType.KNIGHT, validator);
     }
 
-    public Piece createBlackKnight(String id) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new JumpValidator(createKnightCoordinates())
-        );
-        return new Piece(id, Color.BLACK, PieceType.KNIGHT, validator);
-    }
-
-    public Piece createWhiteBishop(String id) {
+    private Piece createBishop(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
                 new AllowEnemyPieceInBetweenValidator(false),
                 new DiagonalValidator()
         );
-        return new Piece(id, Color.WHITE, PieceType.BISHOP, validator);
+        return new Piece(id, color, PieceType.BISHOP, validator);
     }
 
-    public Piece createBlackBishop(String id) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new AllowEnemyPieceInBetweenValidator(false),
-                new DiagonalValidator()
-        );
-        return new Piece(id, Color.BLACK, PieceType.BISHOP, validator);
-    }
-
-    public Piece createWhiteQueen(String id) {
+    private Piece createQueen(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
@@ -147,52 +130,36 @@ public class PieceFactory {
                         new DiagonalValidator()
                 )
         );
-        return new Piece(id, Color.WHITE, PieceType.QUEEN, validator);
+        return new Piece(id, color, PieceType.QUEEN, validator);
     }
 
-    public Piece createBlackQueen(String id) {
+    private Piece createKing(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
-                new AllowEnemyPieceInBetweenValidator(false),
                 new CompositeOrValidator(
-                        new VerticalValidator(),
-                        new HorizontalValidator(),
-                        new DiagonalValidator()
+                        new CompositeAndValidator(
+                                new LimitedMoveValidator(1),
+                                new CompositeOrValidator(
+                                        new VerticalValidator(),
+                                        new HorizontalValidator(),
+                                        new DiagonalValidator()
+                                )
+                        ),
+                        new CompositeAndValidator(
+                                new LimitedMoveValidator(2),
+                                new FirstMoveValidator(),
+                                new AllowEnemyPieceInBetweenValidator(false),
+                                new EmptySquareValidator(),
+                                new HorizontalValidator()
+                        )
+
                 )
         );
-        return new Piece(id, Color.BLACK, PieceType.QUEEN, validator);
+        return new Piece(id, color, PieceType.KING, validator);
     }
 
-    public Piece createWhiteKing(String id) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new LimitedMoveValidator(1),
-                new NoSelfEatingValidator(),
-                new CompositeOrValidator(
-                        new VerticalValidator(),
-                        new HorizontalValidator(),
-                        new DiagonalValidator()
-                )
-        );
-        return new Piece(id, Color.WHITE, PieceType.KING, validator);
-    }
-
-    public Piece createBlackKing(String id) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new LimitedMoveValidator(1),
-                new NoSelfEatingValidator(),
-                new CompositeOrValidator(
-                        new VerticalValidator(),
-                        new HorizontalValidator(),
-                        new DiagonalValidator()
-                )
-        );
-        return new Piece(id, Color.BLACK, PieceType.KING, validator);
-    }
-
-    public Piece createArchBishop(String id, Color color) {
+    private Piece createArchBishop(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
@@ -204,7 +171,7 @@ public class PieceFactory {
         return new Piece(id, color, PieceType.ARCHBISHOP, validator);
     }
 
-    public Piece createChancellor(String id, Color color) {
+    private Piece createChancellor(String id, Color color) {
         MovementValidator validator = new CompositeAndValidator(
                 new OutOfBoundsValidator(),
                 new NoSelfEatingValidator(),
@@ -229,4 +196,5 @@ public class PieceFactory {
                 new Coordinate(-2, -1)
         );
     }
+
 }

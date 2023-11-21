@@ -22,7 +22,7 @@ public class IsAllowedToEatValidator implements MovementValidator { //if chess p
         if (targetPiece == null) {
             return !possible;
         }
-        return possible && currentPiece.getColor() != targetPiece.getColor();
+        return possible && currentPiece.color() != targetPiece.color();
 
     }
 }

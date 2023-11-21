@@ -47,10 +47,10 @@ public class IsForcedToEatValidator implements MovementValidator {
         for (Map.Entry<Coordinate, Piece> entry : board.getPieces().entrySet()) {
             Coordinate coordinate = entry.getKey();
             Piece piece = entry.getValue();
-            if (piece.getColor() == currentPiece.getColor()) {
+            if (piece.color() == currentPiece.color()) {
                 List<Coordinate> possibleMoves = getPossibleMoves(coordinate);
                 for (Coordinate possibleMove : possibleMoves) {
-                    if (piece.getValidator().isValid(List.of(board), new Movement(coordinate, possibleMove))) {
+                    if (piece.validator().isValid(List.of(board), new Movement(coordinate, possibleMove))) {
                         piecesThatCanEat.put(coordinate, possibleMove);
                     }
                 }
