@@ -35,7 +35,7 @@ public class CheckMateValidator implements MovementValidator {
                     Piece currentPiece = piece.getValue(); //current piece of the loop
                     Coordinate currentPiecePosition = piece.getKey(); //current coordinate of the loop
                     Board newBoard = currentBoard.copy();
-                    if( currentPiece.color() != currentTurn ) continue; //if piece is not of current turn player, pass to next iteration
+                    if(isOthersTurn(currentTurn, currentPiece)) continue; //if piece is not of current turn player, pass to next iteration
                     if (!currentPiece.validator().isValid(boardHistory, new Movement(currentPiecePosition, currentPosition))) continue; //if piece move is not valid pass to next iteration
                     newBoard.getPieces().remove(currentPiecePosition);
                     newBoard.getPieces().put(currentPosition, currentPiece); //remove the piece from the actual position and move it to destination
@@ -47,6 +47,10 @@ public class CheckMateValidator implements MovementValidator {
 
         }
         return true;
+    }
+
+    private static boolean isOthersTurn(Color currentTurn, Piece currentPiece) {
+        return currentPiece.color() != currentTurn;
     }
 }
 

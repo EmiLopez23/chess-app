@@ -21,7 +21,6 @@ public class BoardFactory {
         Map<Coordinate, Piece> pieces = new HashMap<>();
         for (int row = 1; row <= rowNumber; row++) {
             for (int col = 1; col <= colNumber; col++) {
-                // Verifica si la casilla actual debe contener una ficha
                 if ((row + col) % 2 == 0) {
                     Color pieceColor;
                     if (row <= rowsPerColor) {
@@ -29,9 +28,9 @@ public class BoardFactory {
                     } else if (row > rowNumber - rowsPerColor) {
                         pieceColor = Color.BLACK;
                     } else {
-                        continue; // Salta al siguiente bucle si no es una fila de un color
+                        continue;
                     }
-                    PieceType pieceType = PieceType.PAWN; // Puedes ajustar el tipo de pieza según sea necesario
+                    PieceType pieceType = PieceType.PAWN;
                     pieces.put(new Coordinate(col, row), checkersPieceFactory.createPiece(String.valueOf(id++), pieceColor, pieceType));
                 }
             }

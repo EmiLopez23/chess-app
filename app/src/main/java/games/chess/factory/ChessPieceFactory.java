@@ -8,6 +8,7 @@ import common.factory.PieceFactory;
 import common.validators.*;
 import common.validators.DiagonalValidator;
 import games.chess.validators.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -88,34 +89,17 @@ public class ChessPieceFactory implements PieceFactory {
     }
 
     private Piece createRook(String id, Color color) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new AllowEnemyPieceInBetweenValidator(false),
-                new CompositeOrValidator(
-                        new VerticalValidator(),
-                        new HorizontalValidator()
-                )
-        );
+        MovementValidator validator = rookMovementValidator();
         return new Piece(id, color, PieceType.ROOK, validator);
     }
 
     private Piece createKnight(String id, Color color) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new JumpValidator(createKnightCoordinates())
-        );
+        MovementValidator validator = knightMovementValidator();
         return new Piece(id, color, PieceType.KNIGHT, validator);
     }
 
     private Piece createBishop(String id, Color color) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new AllowEnemyPieceInBetweenValidator(false),
-                new DiagonalValidator()
-        );
+        MovementValidator validator = bishopMovementValidator();
         return new Piece(id, color, PieceType.BISHOP, validator);
     }
 
@@ -160,26 +144,17 @@ public class ChessPieceFactory implements PieceFactory {
     }
 
     private Piece createArchBishop(String id, Color color) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new CompositeOrValidator(
-                        new DiagonalValidator(),
-                        new JumpValidator(createKnightCoordinates())
-                )
+        MovementValidator validator = new CompositeOrValidator(
+                knightMovementValidator(),
+                bishopMovementValidator()
         );
         return new Piece(id, color, PieceType.ARCHBISHOP, validator);
     }
 
     private Piece createChancellor(String id, Color color) {
-        MovementValidator validator = new CompositeAndValidator(
-                new OutOfBoundsValidator(),
-                new NoSelfEatingValidator(),
-                new CompositeOrValidator(
-                        new VerticalValidator(),
-                        new HorizontalValidator(),
-                        new JumpValidator(createKnightCoordinates())
-                )
+        MovementValidator validator = new CompositeOrValidator(
+                rookMovementValidator(),
+                knightMovementValidator()
         );
         return new Piece(id, color, PieceType.CHANCELLOR, validator);
     }
@@ -194,6 +169,38 @@ public class ChessPieceFactory implements PieceFactory {
                 new Coordinate(2, -1),
                 new Coordinate(-2, 1),
                 new Coordinate(-2, -1)
+        );
+    }
+
+    @NotNull
+    private CompositeAndValidator bishopMovementValidator() {
+        return new CompositeAndValidator(
+                new OutOfBoundsValidator(),
+                new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
+                new DiagonalValidator()
+        );
+    }
+
+    @NotNull
+    private MovementValidator knightMovementValidator() {
+        return new CompositeAndValidator(
+                new OutOfBoundsValidator(),
+                new NoSelfEatingValidator(),
+                new JumpValidator(createKnightCoordinates())
+        );
+    }
+
+    @NotNull
+    private static CompositeAndValidator rookMovementValidator() {
+        return new CompositeAndValidator(
+                new OutOfBoundsValidator(),
+                new NoSelfEatingValidator(),
+                new AllowEnemyPieceInBetweenValidator(false),
+                new CompositeOrValidator(
+                        new VerticalValidator(),
+                        new HorizontalValidator()
+                )
         );
     }
 

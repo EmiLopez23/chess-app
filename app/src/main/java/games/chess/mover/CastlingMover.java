@@ -17,16 +17,17 @@ public class CastlingMover implements Mover {
     public MoveResponse move(Game game, Movement move) {
         Board currentBoard = game.getBoard();
         Piece currentPiece = currentBoard.getPieces().get(move.to());
-        if( currentPiece.pieceType() != PieceType.KING
-                || move.colDifference() == 1
-                || move.rowDifference() != 0
-        ){
+        if(!isValidForCastling(move, currentPiece)){
             return new MoveResponse(game, null, GameState.KEEP_PLAYING);
         }
         if( move.directionX() == 1 ){
             return executeShortCastling(game, move);
         }
         return executeLongCastling(game,move);
+    }
+
+    private boolean isValidForCastling(Movement move, Piece currentPiece) {
+        return currentPiece.pieceType() == PieceType.KING && move.colDifference() > 1 && move.rowDifference() == 0;
     }
 
     private MoveResponse executeShortCastling(Game game, Movement move){

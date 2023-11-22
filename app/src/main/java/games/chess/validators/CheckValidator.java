@@ -27,9 +27,13 @@ public class CheckValidator implements MovementValidator {
         Piece currentPiece = currentBoard.getPiece(movement.to());
         Coordinate kingCoordinate = getKingCoordinate(currentBoard, currentPiece.color());
         for (Map.Entry<Coordinate, Piece> piece : currentBoard.getPieces().entrySet()) {
-            if (piece.getValue().color() != currentPiece.color() && piece.getValue().validator().isValid(new ArrayList<>(List.of(currentBoard)), new Movement(piece.getKey(), kingCoordinate)))
+            if (canAttackMyKing(piece, currentPiece, currentBoard, kingCoordinate))
                 return true;
         }
         return false;
+    }
+
+    private boolean canAttackMyKing(Map.Entry<Coordinate, Piece> piece, Piece currentPiece, Board currentBoard, Coordinate kingCoordinate) {
+        return piece.getValue().color() != currentPiece.color() && piece.getValue().validator().isValid(new ArrayList<>(List.of(currentBoard)), new Movement(piece.getKey(), kingCoordinate));
     }
 }
