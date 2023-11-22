@@ -15,8 +15,8 @@ public class CheckersMover implements Mover {
 
     private final MovementValidator isForcedToEat;
 
-    public CheckersMover(boolean isForcedToEat) {
-        this.isForcedToEat =  new IsForcedToEatValidator(isForcedToEat);
+    public CheckersMover(boolean isForcedToEat, List<Coordinate> possibleAttacks) {
+        this.isForcedToEat =  new IsForcedToEatValidator(isForcedToEat, possibleAttacks);
     }
 
     @Override

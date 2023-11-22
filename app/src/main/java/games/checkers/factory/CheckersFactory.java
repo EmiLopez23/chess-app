@@ -7,6 +7,7 @@ import common.mover.Mover;
 import common.mover.PromoterMover;
 import common.mover.SequenceMover;
 import common.mover.ValidBasicsMover;
+import common.validators.HasEatenValidator;
 import common.validators.MovementValidator;
 import games.checkers.mover.CheckersMover;
 import common.validators.ZeroEnemyPiecesValidator;
@@ -24,8 +25,20 @@ public class CheckersFactory {
         List<Board> boardList = List.of(boardFactory.createClassicBoard());
         Mover checkersMover = new SequenceMover(
                 new ValidBasicsMover(),
-                new CheckersMover(true),
-                new KeepEatingMover(possibleMoves()),
+                new CheckersMover(true, possibleMoves()),
+                new KeepEatingMover(possibleMoves(), new HasEatenValidator()),
+                new PromoterMover(pieceFactory)
+        );
+        return new Game(boardList, checkersMover, playerList, new TurnManager(playerList.get(0)), new ZeroEnemyPiecesValidator());
+    }
+
+    public Game createCustomGame() {
+        List<Player> playerList = List.of(new Player(Color.WHITE), new Player(Color.BLACK));
+        List<Board> boardList = List.of(boardFactory.createCustomBoard(9,9, 4));
+        Mover checkersMover = new SequenceMover(
+                new ValidBasicsMover(),
+                new CheckersMover(true, possibleMoves()),
+                new KeepEatingMover(possibleMoves(), new HasEatenValidator()),
                 new PromoterMover(pieceFactory)
         );
         return new Game(boardList, checkersMover, playerList, new TurnManager(playerList.get(0)), new ZeroEnemyPiecesValidator());

@@ -12,13 +12,16 @@ public class CanKeepEatingValidator implements MovementValidator {
 
     List<Coordinate> possibleAttacks;
 
-    public CanKeepEatingValidator(List<Coordinate> possibleAttacks) {
+    MovementValidator hasEaten;
+
+    public CanKeepEatingValidator(List<Coordinate> possibleAttacks, MovementValidator hasEaten) {
         this.possibleAttacks = possibleAttacks;
+        this.hasEaten = hasEaten;
     }
     @Override
     public boolean isValid(List<Board> boardHistory, Movement movement) {
         Board currentBoard = boardHistory.get(boardHistory.size() - 1);
-        if (!hasEaten(boardHistory.get(boardHistory.size() - 2), movement)) return false;
+        if (!hasEaten.isValid(boardHistory, movement)) return false;
         Piece currentPiece = currentBoard.getPieces().get(movement.to());
         List<Coordinate> possibleMoves = getPossibleMoves(movement.to());
         for (Coordinate possibleMove : possibleMoves) {
@@ -31,11 +34,5 @@ public class CanKeepEatingValidator implements MovementValidator {
 
     public List<Coordinate> getPossibleMoves(Coordinate current) {
         return possibleAttacks.stream().map(current::add).toList();
-    }
-
-    public boolean hasEaten(Board board, Movement movement) {
-        if(movement.colDifference() == 1 && movement.rowDifference() == 1) return false; // if move was just one square return false
-        Coordinate pieceInBetween = new Coordinate((movement.from().column() + movement.to().column()) / 2, (movement.from().row() + movement.to().row()) / 2);
-        return board.getPiece(pieceInBetween) != null;
     }
 }

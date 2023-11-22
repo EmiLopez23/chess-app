@@ -14,8 +14,8 @@ public class KeepEatingMover implements Mover {
 
     MovementValidator canKeepEating;
 
-    public KeepEatingMover(List<Coordinate> possibleMoves) {
-        this.canKeepEating = new CanKeepEatingValidator(possibleMoves);
+    public KeepEatingMover(List<Coordinate> possibleMoves, MovementValidator hasEaten) {
+        this.canKeepEating = new CanKeepEatingValidator(possibleMoves, hasEaten);
     }
 
     @Override
