@@ -7,7 +7,6 @@ import common.enums.PieceType;
 import common.factory.PieceFactory;
 import common.validators.*;
 import common.validators.DiagonalValidator;
-import games.chess.validators.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

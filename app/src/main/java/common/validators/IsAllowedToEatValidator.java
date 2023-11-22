@@ -1,4 +1,4 @@
-package games.chess.validators;
+package common.validators;
 
 import common.Board;
 import common.Movement;

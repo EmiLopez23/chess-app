@@ -19,15 +19,15 @@ public class CustomGameEngine implements GameEngine {
     public MoveResult applyMove(@NotNull Move move) {
         Movement movement = adapter.moveToMovement(move);
         MoveResponse gameResult = game.play(movement);
-        if (!gameResult.isValid()) {
-            if (gameResult.state() == GameState.GAME_OVER) {
-                return new GameOver(adapter.colorToPlayerColor(gameResult.game().getCurrentPlayer().color()));
-            }
-            return new InvalidMove(gameResult.message());
+        if (gameResult.isValid()) {
+            Game result = gameResult.game();
+            this.game = result;
+            return new NewGameState(adapter.piecesToChessPieces(result.getBoard().getPieces()), adapter.colorToPlayerColor(result.turnManager().currentPlayer().color()));
         }
-        Game result = gameResult.game();
-        this.game = result;
-        return new NewGameState(adapter.piecesToChessPieces(result.getBoard().getPieces()), adapter.colorToPlayerColor(result.turnManager().currentPlayer().color()));
+        if (gameResult.state() == GameState.GAME_OVER) {
+            return new GameOver(adapter.colorToPlayerColor(gameResult.game().getCurrentPlayer().color()));
+        }
+        return new InvalidMove(gameResult.message());
     }
 
     @NotNull

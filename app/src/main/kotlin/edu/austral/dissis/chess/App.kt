@@ -22,7 +22,7 @@ fun main() {
 }
 
 class ChessGameApplication : Application() {
-    private val gameEngine = CustomGameEngine(ChessFactory().createCapaBlancaGame())
+    private val gameEngine = CustomGameEngine(CheckersFactory().createClassicGame())
     private val imageResolver = CachedImageResolver(DefaultImageResolver())
     private val root = GameView(imageResolver)
     private val server = NettyServerBuilder.createDefault()
